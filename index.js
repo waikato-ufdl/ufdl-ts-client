@@ -35,8 +35,6 @@ let dataset = undefined;
 async function checkLoginDetails(serverAddress, port, username, password) {
     context = new UFDLServerContext(serverAddress, port,
                                     username, password);
-    // TODO: remove before merge! This is purely for testing purposes
-    //let result = await setup();
     /* Get the licences to test the context is created with valid
      * credentials */
     let licences = await getLicences();
