@@ -1,7 +1,7 @@
 "use strict";
 
 export function detail_url(base_url, object_pk) {
-    return base_url + object_pk + "/"
+    return base_url + object_pk + "/";
 }
 
 export function partial_params(params) {
