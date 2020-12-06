@@ -137,7 +137,7 @@ export class UFDLServerContext {
         return this.fetch(url, "POST", {
             body: data,
             headers: {
-                'Content-Disposition': "attachment; file=" + filename,
+                'Content-Disposition': "attachment; filename=" + filename,
                 'Content-Type': "application/data"
             }
         },
@@ -227,7 +227,7 @@ export class UFDLServerContext {
     }
 
     _format_json(json) {
-        if (json === null) return {};
+        if (json === undefined) return {};
 
         return {
             body: JSON.stringify(json),

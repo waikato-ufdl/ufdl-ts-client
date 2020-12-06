@@ -2,14 +2,14 @@
 
 import {detail_url} from "./util.js";
 
-export async function list(context, url) {
-    let response = await context.get(url);
+export async function list(context, url, filter) {
+    let response = await context.post(url + "list/", filter);
 
     return response.json();
 }
 
 export async function create(context, url, params) {
-    let response = await context.post(url, params);
+    let response = await context.post(url + "create/", params);
 
     return response.json();
 }
