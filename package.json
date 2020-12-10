@@ -3,12 +3,19 @@
   "version": "1.0.0",
   "type": "module",
   "description": "A JavaScript client to connect the UFDL web frontend to the backend.",
-  "main": "lib/ufdl/index.js",
-  "types": "lib/ufdl/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf lib && tsc",
-    "schema": "./generate_schema.sh"
+    "gen-schema": "./generate_schema.sh",
+    "clean": "rm -rf lib build_tools dist",
+    "compile-src": "tsc -p tsconfig.src.json",
+    "compile-tools": "tsc -p tsconfig.tools.json",
+    "compile-all": "npm run compile-src && npm run compile-tools",
+    "dist-mkdir": "mkdir dist",
+    "dist-lib": "cp -r lib/* dist",
+    "dist-package": "node build_tools/prepare_package.js",
+    "dist-readme": "cp README.md dist/README.md",
+    "dist-license": "cp LICENSE dist/LICENSE",
+    "dist-all": "npm run dist-mkdir && npm run dist-lib && npm run dist-package && npm run dist-readme && npm run dist-license",
+    "all": "npm run clean && npm run compile-all && npm run dist-all"
   },
   "repository": {
     "type": "git",
@@ -26,17 +33,19 @@
   },
   "homepage": "https://github.com/waikato-ufdl/ufdl-js-client#readme",
   "devDependencies": {
+    "quicktype": "^15.0.258",
     "tslib": "^2.0.3",
     "typescript": "^4.1.2",
-    "quicktype": "^15.0.258"
+    "@types/node": "^14.14.11",
+    "node": "^15.3.0"
   },
   "dependencies": {
     "tslib": "^2.0.3"
   },
   "files": [
-    "lib/**/*.js",
-    "lib/**/*.d.ts",
-    "lib/**/*.map",
-    "lib/**/8.json"
+    "./**/*.js",
+    "./**/*.d.ts",
+    "./**/*.map",
+    "./**/*.json"
   ]
 }

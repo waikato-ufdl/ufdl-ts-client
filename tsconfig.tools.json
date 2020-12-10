@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": [
+      "es6"
+    ],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedParameters": true,
+    "allowUnreachableCode": false,
+    "outDir": "./build_tools",
+    "rootDir": "tools",
+    "baseUrl": "tools",
+    "listEmittedFiles": true,
+    "declaration": true,
+    "declarationMap": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "importHelpers": true,
+    "removeComments": true
+  },
+  "include": [
+    "tools/**/*.ts"
+  ]
+}
