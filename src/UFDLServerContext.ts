@@ -314,8 +314,6 @@ export default class UFDLServerContext {
             ...this.node_id_header
         };
 
-        console.log(`URL: ${url}`);
-
         return fetch(
             url,
             {
