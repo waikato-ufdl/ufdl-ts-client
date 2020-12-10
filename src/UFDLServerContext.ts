@@ -40,11 +40,13 @@ export default class UFDLServerContext {
     }
 
     public change_server(host: string): void {
+        if (host == this._host) return;
         this._host = host;
         this._tokens = this.establish_tokens();
     }
 
     public change_user(username: string, password: string): void {
+        if (username == this._username && password == this._password) return;
         this._username = username;
         this._password = password;
         this._tokens = this.establish_tokens();
@@ -62,10 +64,6 @@ export default class UFDLServerContext {
 
     private get local_storage_key(): string {
         return `_UFDL_${this.host}_${this.username}_`;
-    }
-
-    private get authorization_header(): Promise<HeadersInit> {
-        return this.access_token.then(authorization_header);
     }
 
     private get node_id_header(): HeadersInit {
@@ -86,28 +84,7 @@ export default class UFDLServerContext {
     }
 
     get tokens(): Promise<Tokens> {
-        this._tokens = this._tokens.catch(
-            tokens => {
-                if (!(tokens instanceof Tokens)) throw tokens;
-                return tokens;
-            }
-        );
-
         return this._tokens;
-    }
-
-    private set_tokens(promise: Promise<Tokens>) {
-        this._tokens = this._tokens
-            .then(
-                async (tokens: Tokens) => {
-                    tokens = await promise;
-                    localStorage.setItem(
-                        this.local_storage_key,
-                        tokens.serialise()
-                    );
-                    throw tokens;
-                }
-            );
     }
 
     private async establish_tokens(): Promise<Tokens> {
@@ -120,9 +97,8 @@ export default class UFDLServerContext {
         }
     }
 
-    private async refresh_tokens(): Promise<Tokens> {
+    private async refresh_tokens(refresh_token: RefreshToken): Promise<Tokens> {
         try {
-            let refresh_token: RefreshToken = await this.refresh_token;
             let new_access_token: AccessToken = await this._jwt_refresh(refresh_token);
             return new Tokens(
                 new_access_token,
@@ -136,8 +112,20 @@ export default class UFDLServerContext {
         }
     }
 
-    private async refresh(): Promise<void> {
-        this.set_tokens(this.refresh_tokens())
+    private invalidate_token(invalid_token: AccessToken): void {
+        // TODO: Race-condition where if two threads grab the this._tokens at the same time,
+        //       multiple refreshes may be performed.
+        this._tokens = this._tokens.then(
+            async (tokens) => {
+                if (tokens.access == invalid_token) {
+                    let new_tokens = await this.refresh_tokens(tokens.refresh);
+                    localStorage.setItem(this.local_storage_key, new_tokens.serialise());
+                    return new_tokens;
+                } else {
+                    return tokens;
+                }
+            }
+        )
     }
 
     // endregion
@@ -269,18 +257,28 @@ export default class UFDLServerContext {
         method: Method,
         payload: Payload
     ): Promise<Response> {
+        // Get the current access token
+        let access_token = await this.access_token;
+
+        // Attempt to make the request
         let response = await this._fetch_auth(
             url,
             method,
-            payload
+            payload,
+            access_token
         );
 
-        if (response.status === 401) { // unauthorized
-            await this.refresh();
+        // If the response failed due to authorization failure
+        if (response.status === 401 /* unauthorized */) {
+            // Invalidate the token we used
+            this.invalidate_token(access_token);
+
+            // Try again with a new token
             response = await this._fetch_auth(
                 url,
                 method,
-                payload
+                payload,
+                await this.access_token
             );
         }
 
@@ -290,11 +288,13 @@ export default class UFDLServerContext {
     private async _fetch_auth(
         url: string,
         method: Method,
-        payload: Payload
+        payload: Payload,
+        token: AccessToken
     ): Promise<Response> {
+        // Add the authorization header
         payload.headers = {
             ...payload.headers,
-            ...await this.authorization_header
+            ...authorization_header(token)
         };
 
         return this._fetch(
