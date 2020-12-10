@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "type": "module",
   "description": "A JavaScript client to connect the UFDL web frontend to the backend.",
-  "main": "index.js",
+  "main": "lib/ufdl/index.js",
+  "types": "lib/ufdl/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf lib && tsc",
+    "schema": "./generate_schema.sh"
   },
   "repository": {
     "type": "git",
@@ -21,5 +24,19 @@
   "bugs": {
     "url": "https://github.com/waikato-ufdl/ufdl-js-client/issues"
   },
-  "homepage": "https://github.com/waikato-ufdl/ufdl-js-client#readme"
+  "homepage": "https://github.com/waikato-ufdl/ufdl-js-client#readme",
+  "devDependencies": {
+    "tslib": "^2.0.3",
+    "typescript": "^4.1.2",
+    "quicktype": "^15.0.258"
+  },
+  "dependencies": {
+    "tslib": "^2.0.3"
+  },
+  "files": [
+    "lib/**/*.js",
+    "lib/**/*.d.ts",
+    "lib/**/*.map",
+    "lib/**/8.json"
+  ]
 }

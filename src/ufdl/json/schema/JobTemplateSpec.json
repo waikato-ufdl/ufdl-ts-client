@@ -1,0 +1,218 @@
+{
+  "type": "object",
+  "properties": {
+    "licence": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "scope": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16
+    },
+    "specific": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "body": {
+              "type": "string"
+            },
+            "executor_class": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "framework": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 49
+            },
+            "inputs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "types": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "help": {
+                    "type": "string"
+                  },
+                  "options": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "types"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "job_type": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 32
+            },
+            "parameters": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 32
+                  },
+                  "type": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 32
+                  },
+                  "default": {
+                    "type": "string"
+                  },
+                  "help": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "type"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required_packages": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "body",
+            "executor_class",
+            "framework",
+            "inputs",
+            "job_type",
+            "parameters",
+            "required_packages"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "dependencies": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "from_node": {
+                    "type": "string"
+                  },
+                  "from_output": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string"
+                      },
+                      "value": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "to_input": {
+                    "type": "string"
+                  },
+                  "to_node": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "from_node",
+                  "from_output",
+                  "to_input",
+                  "to_node"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "nodes": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "parameter_default_overrides": {
+                    "type": "object",
+                    "properties": {},
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  },
+                  "version": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "dependencies",
+            "nodes"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "description": {
+      "type": "string"
+    },
+    "domain": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 2
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "definitions": {},
+  "required": [
+    "licence",
+    "name",
+    "scope",
+    "specific"
+  ],
+  "additionalProperties": false
+}

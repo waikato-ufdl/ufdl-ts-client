@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedParameters": true,
+    "allowUnreachableCode": false,
+    "outDir": "./lib",
+    "rootDir": "src",
+    "baseUrl": "src",
+    "listEmittedFiles": true,
+    "declaration": true,
+    "declarationMap": true,
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "importHelpers": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "sourceRoot": "https://github.com/waikato-ufdl/ufdl-js-client/tree/master/src"
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

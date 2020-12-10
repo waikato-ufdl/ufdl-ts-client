@@ -1,0 +1,610 @@
+{
+  "type": "object",
+  "properties": {
+    "expressions": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "sub_expressions": {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "field": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "type": {
+                          "const": "isnull"
+                        },
+                        "invert": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "field",
+                        "type"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "field": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "sub_string": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "type": {
+                          "const": "contains"
+                        },
+                        "case_insensitive": {
+                          "type": "boolean"
+                        },
+                        "invert": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "field",
+                        "sub_string",
+                        "type"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "field": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "operator": {
+                          "enum": [
+                            "<=",
+                            ">=",
+                            ">",
+                            "<"
+                          ]
+                        },
+                        "type": {
+                          "const": "compare"
+                        },
+                        "value": {
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "number"
+                            }
+                          ]
+                        },
+                        "invert": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "field",
+                        "operator",
+                        "type",
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "field": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "type": {
+                          "const": "exact"
+                        },
+                        "value": {
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "boolean"
+                            }
+                          ]
+                        },
+                        "case_insensitive": {
+                          "type": "boolean"
+                        },
+                        "invert": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "field",
+                        "type",
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "minItems": 2
+              },
+              "type": {
+                "const": "and"
+              },
+              "invert": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "sub_expressions",
+              "type"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "sub_expressions": {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "sub_expressions": {
+                          "type": "array",
+                          "items": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "field": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "type": {
+                                    "const": "isnull"
+                                  },
+                                  "invert": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "field",
+                                  "type"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "field": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "sub_string": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "type": {
+                                    "const": "contains"
+                                  },
+                                  "case_insensitive": {
+                                    "type": "boolean"
+                                  },
+                                  "invert": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "field",
+                                  "sub_string",
+                                  "type"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "field": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "operator": {
+                                    "enum": [
+                                      "<=",
+                                      ">=",
+                                      ">",
+                                      "<"
+                                    ]
+                                  },
+                                  "type": {
+                                    "const": "compare"
+                                  },
+                                  "value": {
+                                    "oneOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "invert": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "field",
+                                  "operator",
+                                  "type",
+                                  "value"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "field": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "type": {
+                                    "const": "exact"
+                                  },
+                                  "value": {
+                                    "oneOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "number"
+                                      },
+                                      {
+                                        "type": "boolean"
+                                      }
+                                    ]
+                                  },
+                                  "case_insensitive": {
+                                    "type": "boolean"
+                                  },
+                                  "invert": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "field",
+                                  "type",
+                                  "value"
+                                ],
+                                "additionalProperties": false
+                              }
+                            ]
+                          },
+                          "minItems": 2
+                        },
+                        "type": {
+                          "const": "and"
+                        },
+                        "invert": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "sub_expressions",
+                        "type"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "field": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "type": {
+                          "const": "isnull"
+                        },
+                        "invert": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "field",
+                        "type"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "field": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "sub_string": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "type": {
+                          "const": "contains"
+                        },
+                        "case_insensitive": {
+                          "type": "boolean"
+                        },
+                        "invert": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "field",
+                        "sub_string",
+                        "type"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "field": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "operator": {
+                          "enum": [
+                            "<=",
+                            ">=",
+                            ">",
+                            "<"
+                          ]
+                        },
+                        "type": {
+                          "const": "compare"
+                        },
+                        "value": {
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "number"
+                            }
+                          ]
+                        },
+                        "invert": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "field",
+                        "operator",
+                        "type",
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "field": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "type": {
+                          "const": "exact"
+                        },
+                        "value": {
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "boolean"
+                            }
+                          ]
+                        },
+                        "case_insensitive": {
+                          "type": "boolean"
+                        },
+                        "invert": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "field",
+                        "type",
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "minItems": 2
+              },
+              "type": {
+                "const": "or"
+              },
+              "invert": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "sub_expressions",
+              "type"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "field": {
+                "type": "string",
+                "minLength": 1
+              },
+              "type": {
+                "const": "isnull"
+              },
+              "invert": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "field",
+              "type"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "field": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sub_string": {
+                "type": "string",
+                "minLength": 1
+              },
+              "type": {
+                "const": "contains"
+              },
+              "case_insensitive": {
+                "type": "boolean"
+              },
+              "invert": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "field",
+              "sub_string",
+              "type"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "field": {
+                "type": "string",
+                "minLength": 1
+              },
+              "operator": {
+                "enum": [
+                  "<=",
+                  ">=",
+                  ">",
+                  "<"
+                ]
+              },
+              "type": {
+                "const": "compare"
+              },
+              "value": {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "invert": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "field",
+              "operator",
+              "type",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "field": {
+                "type": "string",
+                "minLength": 1
+              },
+              "type": {
+                "const": "exact"
+              },
+              "value": {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  }
+                ]
+              },
+              "case_insensitive": {
+                "type": "boolean"
+              },
+              "invert": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "field",
+              "type",
+              "value"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "include_inactive": {
+      "type": "boolean"
+    },
+    "order_by": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "ascending": {
+            "type": "boolean"
+          },
+          "nulls_first": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "field"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "definitions": {},
+  "additionalProperties": false
+}
