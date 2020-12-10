@@ -1,6 +1,6 @@
 {
   "name": "ufdl-js-client",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "type": "module",
   "description": "A JavaScript client to connect the UFDL web frontend to the backend.",
   "scripts": {
