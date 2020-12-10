@@ -6,8 +6,8 @@
   "scripts": {
     "gen-schema": "./generate_schema.sh",
     "clean": "rm -rf lib build_tools dist",
-    "compile-src": "tsc -p tsconfig.src.json",
-    "compile-tools": "tsc -p tsconfig.tools.json",
+    "compile-src": "tsc",
+    "compile-tools": "cd tools && tsc",
     "compile-all": "npm run compile-src && npm run compile-tools",
     "dist-mkdir": "mkdir dist",
     "dist-lib": "cp -r lib/* dist",

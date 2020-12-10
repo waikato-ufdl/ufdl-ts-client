@@ -14,9 +14,7 @@
     "noImplicitReturns": true,
     "noUnusedParameters": true,
     "allowUnreachableCode": false,
-    "outDir": "./build_tools",
-    "rootDir": "tools",
-    "baseUrl": "tools",
+    "outDir": "../build_tools",
     "listEmittedFiles": true,
     "declaration": true,
     "declarationMap": true,
@@ -26,6 +24,6 @@
     "removeComments": true
   },
   "include": [
-    "tools/**/*.ts"
+    "./**/*.ts"
   ]
 }
