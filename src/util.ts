@@ -50,3 +50,9 @@ function get_object_value<T>(
         throw TypeError(`Object missing property ${key}`);
     }
 }
+
+export function toHexString(bytes: Uint8Array): string {
+    return Array.from(bytes).map(
+        (value) => value.toString(16).padStart(2, "0")
+    ).join("");
+}

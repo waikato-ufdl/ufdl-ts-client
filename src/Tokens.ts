@@ -1,3 +1,5 @@
+import {decrypt, encrypt} from "./sec";
+
 export class Token {
     _value: string;
 
@@ -30,16 +32,13 @@ export class Tokens {
         return this._refresh;
     }
 
-    serialise(): string {
-        return `${this._access} ${this._refresh}`;
+    async serialise(key: CryptoKey): Promise<string> {
+        return encrypt(`${this._access} ${this._refresh}`, key);
     }
 
-    toString(): string {
-        return this.serialise()
-    }
-
-    static deserialise(serialised: string): Tokens {
-        let tokens: string[] = serialised.split(" ");
+    static async deserialise(serialised: string, key: CryptoKey): Promise<Tokens> {
+        const decrypted = await decrypt(serialised, key);
+        let tokens: string[] = decrypted.split(" ");
         return this.fromString(tokens[0], tokens[1]);
     }
 

@@ -3,8 +3,9 @@
 import {JWT_OBTAIN_TOKEN_URL, JWT_REFRESH_TOKEN_URL, JWT_VERIFY_TOKEN_URL} from "./constants";
 import {AccessToken, RefreshToken, Token, Tokens} from "./Tokens";
 import {Method} from "./Method";
-import {Nullable, Optional} from "./util";
+import {Nullable, Optional, toHexString} from "./util";
 import {authorization_header, data_payload, json_payload, node_id_header, Payload} from "./payload";
+import {digestOf, encodeString, generateKeyFromPassword} from "./sec";
 
 const EMPTY_PAYLOAD: Payload = {headers: {}};
 
@@ -62,8 +63,15 @@ export default class UFDLServerContext {
 
     // region CALCULATED PROPERTIES
 
-    private get local_storage_key(): string {
-        return `_UFDL_${this.host}_${this.username}_`;
+    private async get_local_storage_key(): Promise<string> {
+        const storageKeyRaw = `_UFDL_${this.host}_${this.username}_${this.password}_`;
+        const encoded = encodeString(storageKeyRaw);
+        const digest = await digestOf(encoded);
+        return toHexString(digest.slice(0, 50));
+    }
+
+    private get crypto_key(): Promise<CryptoKey> {
+        return generateKeyFromPassword(this._password);
     }
 
     private get node_id_header(): HeadersInit {
@@ -88,12 +96,16 @@ export default class UFDLServerContext {
     }
 
     private async establish_tokens(): Promise<Tokens> {
-        let tokens = localStorage.getItem(this.local_storage_key);
+        const local_storage_key = await this.get_local_storage_key();
+
+        let tokens = localStorage.getItem(local_storage_key);
 
         if (tokens === null) {
-            return this._jwt_obtain();
+            const tokens = await this._jwt_obtain();
+            this.store_tokens(tokens);
+            return tokens;
         } else {
-            return Promise.resolve(Tokens.deserialise(tokens));
+            return Tokens.deserialise(tokens, await this.crypto_key);
         }
     }
 
@@ -119,13 +131,20 @@ export default class UFDLServerContext {
             async (tokens) => {
                 if (tokens.access == invalid_token) {
                     let new_tokens = await this.refresh_tokens(tokens.refresh);
-                    localStorage.setItem(this.local_storage_key, new_tokens.serialise());
+                    this.store_tokens(new_tokens);
                     return new_tokens;
                 } else {
                     return tokens;
                 }
             }
         )
+    }
+
+    private async store_tokens(tokens: Tokens) {
+        const local_storage_key = await this.get_local_storage_key();
+        const crypto_key = await this.crypto_key;
+        const serialised_tokens = await tokens.serialise(crypto_key);
+        localStorage.setItem(local_storage_key, serialised_tokens);
     }
 
     // endregion
