@@ -3,12 +3,11 @@
 import * as base_actions from "../base_actions";
 import {LICENCES_URL} from "../../constants";
 import UFDLServerContext from "../../UFDLServerContext";
-import {Optional} from "../../util";
 import {FilterSpec} from "../../json/generated/FilterSpec";
 
 export async function list(
     context: UFDLServerContext,
-    filter: Optional<FilterSpec> = undefined
+    filter?: FilterSpec
 ) {
     return base_actions.list(context, LICENCES_URL, filter);
 }
@@ -40,8 +39,8 @@ export async function update(
 export async function partial_update(
     context: UFDLServerContext,
     pk: bigint,
-    name: Optional<string> = undefined,
-    url: Optional<string> = undefined
+    name?: string,
+    url?: string
 ) {
     return base_actions.update(context, LICENCES_URL, pk, {name: name, url: url});
 }

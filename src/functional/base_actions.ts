@@ -2,12 +2,12 @@
 
 import UFDLServerContext from "../UFDLServerContext";
 import {FilterSpec} from "../json/generated/FilterSpec";
-import {Nullable, Optional} from "../util";
+import {Nullable} from "../util";
 
 export async function list(
     context: UFDLServerContext,
     url: string,
-    filter: Optional<FilterSpec> = undefined
+    filter?: FilterSpec
 ): Promise<{}[]> {
     let filterSpec: Nullable<FilterSpec>;
     if (filter === undefined)

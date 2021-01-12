@@ -14,7 +14,7 @@ export default class UFDLServerContext {
     private _username: string;
     private _password: string;
     private _tokens: Promise<Tokens>;
-    private _node_id: Optional<bigint>;
+    private _node_id?: bigint;
 
     constructor(host: string, username: string, password: string) {
         this._host = host;

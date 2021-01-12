@@ -3,13 +3,12 @@
 import * as base_actions from "../base_actions";
 import {TEAMS_URL} from "../../constants";
 import UFDLServerContext from "../../UFDLServerContext";
-import {Optional} from "../../util";
 import {FilterSpec} from "../../json/generated/FilterSpec";
 import * as mixin_actions from "./mixin_actions";
 
 export async function list(
     context: UFDLServerContext,
-    filter: Optional<FilterSpec> = undefined
+    filter?: FilterSpec
 ): Promise<{}[]> {
     return base_actions.list(context, TEAMS_URL, filter);
 }
@@ -39,7 +38,7 @@ export async function update(
 export async function partial_update(
     context: UFDLServerContext,
     pk: bigint,
-    name: Optional<string> = undefined
+    name?: string
 ): Promise<{}> {
     return base_actions.partial_update(context, TEAMS_URL, pk, {name: name});
 }

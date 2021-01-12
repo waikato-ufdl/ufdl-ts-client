@@ -1,7 +1,6 @@
 "use strict";
 
 import UFDLServerContext from "../../UFDLServerContext";
-import {Optional} from "../../util";
 import {FilterSpec} from "../../json/generated/FilterSpec";
 import * as base_actions from "../base_actions";
 import {OBJECT_DETECTION_DATASETS_URL} from "../../constants";
@@ -11,7 +10,7 @@ import {Annotation} from "../../json/generated/Annotation";
 
 export async function list(
     context: UFDLServerContext,
-    filter: Optional<FilterSpec> = undefined
+    filter?: FilterSpec
 ) {
     return await base_actions.list(context, OBJECT_DETECTION_DATASETS_URL, filter);
 }
@@ -74,12 +73,12 @@ export async function update(
 export async function partial_update(
     context: UFDLServerContext,
     pk: bigint,
-    name: Optional<string> = undefined,
-    description: Optional<string> = undefined,
-    project: Optional<bigint> = undefined,
-    licence: Optional<bigint> = undefined,
-    is_public: Optional<boolean> = undefined,
-    tags: Optional<string> = undefined
+    name?: string,
+    description?: string,
+    project?: bigint,
+    licence?: bigint,
+    is_public?: boolean,
+    tags?: string
 ) {
     return await base_actions.partial_update(
         context,
@@ -145,7 +144,7 @@ export async function delete_file(
 export async function copy(
     context: UFDLServerContext,
     pk: bigint,
-    new_name: Optional<string> = undefined
+    new_name?: string
 ) {
     return await core_mixin_actions.copy(context, OBJECT_DETECTION_DATASETS_URL, pk, {new_name: new_name});
 }

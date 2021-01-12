@@ -1,5 +1,5 @@
 import UFDLServerContext from "../../UFDLServerContext";
-import {Optional, get_response_stream, get_response_json_value} from "../../util";
+import {get_response_stream, get_response_json_value} from "../../util";
 
 // region AcquireJobViewSet
 
@@ -42,7 +42,7 @@ export async function finish_job(
     url: string,
     pk: bigint,
     send_notification: string,
-    error: Optional<string>
+    error?: string
 ): Promise<{}> {
     let response = await context.post(`${url}/${pk}/finish`,
                                       {
@@ -115,7 +115,7 @@ export async function download(
     context: UFDLServerContext,
     url: string,
     pk: bigint,
-    filetype: Optional<string>,
+    filetype?: string,
     params: {} = {}
 ): Promise<ReadableStream<Uint8Array>> {
     let response = await context.download(

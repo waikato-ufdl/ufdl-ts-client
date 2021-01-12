@@ -2,13 +2,12 @@
 
 import * as base_actions from "../base_actions";
 import UFDLServerContext from "../../UFDLServerContext";
-import {Optional} from "../../util";
 import {FilterSpec} from "../../json/generated/FilterSpec";
 import {USERS_URL} from "../../constants";
 
 export async function list(
     context: UFDLServerContext,
-    filter: Optional<FilterSpec> = undefined
+    filter?: FilterSpec
 ): Promise<{}[]> {
     return await base_actions.list(context, USERS_URL, filter);
 }
@@ -69,12 +68,12 @@ export async function update(
 export async function partial_update(
     context: UFDLServerContext,
     pk: bigint,
-    username: Optional<string> = undefined,
-    password: Optional<string> = undefined,
-    first_name: Optional<string> = undefined,
-    last_name: Optional<string> = undefined,
-    email: Optional<string> = undefined,
-    is_active: Optional<boolean> = undefined
+    username?: string,
+    password?: string,
+    first_name?: string,
+    last_name?: string,
+    email?: string,
+    is_active?: boolean
 ): Promise<{}> {
     return await base_actions.partial_update(
         context,
