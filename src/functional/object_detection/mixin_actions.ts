@@ -5,6 +5,13 @@
 import UFDLServerContext from "../../UFDLServerContext";
 import {Annotation} from "../../json/generated/Annotation";
 
+export default {
+    get_annotations,
+    get_annotations_for_image,
+    set_annotations_for_image,
+    delete_annotations_for_image
+}
+
 export async function get_annotations(
     context: UFDLServerContext,
     url: string,

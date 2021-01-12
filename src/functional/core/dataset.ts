@@ -6,6 +6,20 @@ import * as base_actions from "../base_actions";
 import {DATASETS_URL} from "../../constants";
 import * as mixin_actions from "./mixin_actions";
 
+export default {
+    list,
+    create,
+    retrieve,
+    update,
+    partial_update,
+    destroy,
+    download,
+    add_file,
+    get_file,
+    delete_file,
+    copy
+}
+
 export async function list(
     context: UFDLServerContext,
     filter?: FilterSpec

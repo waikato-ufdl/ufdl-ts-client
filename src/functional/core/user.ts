@@ -5,6 +5,15 @@ import UFDLServerContext from "../../UFDLServerContext";
 import {FilterSpec} from "../../json/generated/FilterSpec";
 import {USERS_URL} from "../../constants";
 
+export default {
+    list,
+    create,
+    retrieve,
+    update,
+    partial_update,
+    destroy
+}
+
 export async function list(
     context: UFDLServerContext,
     filter?: FilterSpec

@@ -6,6 +6,18 @@ import UFDLServerContext from "../../UFDLServerContext";
 import {FilterSpec} from "../../json/generated/FilterSpec";
 import * as mixin_actions from "./mixin_actions";
 
+export default {
+    list,
+    create,
+    retrieve,
+    update,
+    partial_update,
+    destroy,
+    add_membership,
+    remove_membership,
+    update_membership
+}
+
 export async function list(
     context: UFDLServerContext,
     filter?: FilterSpec
