@@ -1,5 +1,6 @@
 import UFDLServerContext from "../../UFDLServerContext";
 import {get_response_stream, get_response_json_value} from "../../util";
+import {RawJSONObject} from "../../types";
 
 export default {
     acquire_job,
@@ -29,7 +30,7 @@ export async function acquire_job(
     context: UFDLServerContext,
     url: string,
     pk: bigint
-): Promise<{}> {
+): Promise<RawJSONObject> {
     let response = await context.get(`${url}/${pk}/acquire`);
 
     return response.json();
@@ -39,7 +40,7 @@ export async function release_job(
     context: UFDLServerContext,
     url: string,
     pk: bigint
-): Promise<{}> {
+): Promise<RawJSONObject> {
     let response = await context.get(`${url}/${pk}/release`);
 
     return response.json();
@@ -50,7 +51,7 @@ export async function start_job(
     url: string,
     pk: bigint,
     send_notification: string
-): Promise<{}> {
+): Promise<RawJSONObject> {
     let response = await context.post(`${url}/${pk}/start`,
                                       {
                                           send_notification: send_notification
@@ -65,7 +66,7 @@ export async function finish_job(
     pk: bigint,
     send_notification: string,
     error?: string
-): Promise<{}> {
+): Promise<RawJSONObject> {
     let response = await context.post(`${url}/${pk}/finish`,
                                       {
                                           success: (error === undefined),
@@ -80,7 +81,7 @@ export async function reset_job(
     context: UFDLServerContext,
     url: string,
     pk: bigint
-): Promise<{}> {
+): Promise<RawJSONObject> {
     let response = await context.delete_(`${url}/${pk}/reset`);
 
     return response.json();
@@ -90,7 +91,7 @@ export async function abort_job(
     context: UFDLServerContext,
     url: string,
     pk: bigint
-): Promise<{}> {
+): Promise<RawJSONObject> {
     let response = await context.delete_(`${url}/${pk}/abort`);
 
     return response.json();
@@ -117,7 +118,7 @@ export async function copy(
     url: string,
     pk: bigint,
     params: {}
-): Promise<{}> {
+): Promise<RawJSONObject> {
     let response = await context.post(`${url}/${pk}/copy`, params);
 
     return response.json();
@@ -161,7 +162,7 @@ export async function add_file(
     pk: bigint,
     filename: string,
     data: Blob | BufferSource | ReadableStream<Uint8Array>
-): Promise<{}> {
+): Promise<RawJSONObject> {
     let response = await context.upload(
         `${url}/${pk}/files/${filename}`,
         filename,
@@ -189,7 +190,7 @@ export async function delete_file(
     url: string,
     pk: bigint,
     filename: string
-): Promise<{}> {
+): Promise<RawJSONObject> {
     let response = await context.delete_(
         `${url}/${pk}/files/${filename}`
     );
@@ -267,7 +268,7 @@ export async function add_membership(
     pk: bigint,
     username: string,
     permissions: string = "R"
-): Promise<{}> {
+): Promise<RawJSONObject> {
     let response = await context.patch(
         `${url}/${pk}/memberships`,
         {
@@ -285,7 +286,7 @@ export async function remove_membership(
     url: string,
     pk: bigint,
     username: string
-): Promise<{}> {
+): Promise<RawJSONObject> {
     let response = await context.patch(
         `${url}/${pk}/memberships`,
         {
@@ -303,7 +304,7 @@ export async function update_membership(
     pk: bigint,
     username: string,
     permissions: string = "R"
-): Promise<{}> {
+): Promise<RawJSONObject> {
     let response = await context.patch(
         `${url}/${pk}/memberships`,
         {

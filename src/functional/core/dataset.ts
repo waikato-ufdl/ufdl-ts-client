@@ -3,6 +3,7 @@ import {FilterSpec} from "../../json/generated/FilterSpec";
 import * as base_actions from "../base_actions";
 import {DATASETS_URL} from "../../constants";
 import * as mixin_actions from "./mixin_actions";
+import {RawJSONObject} from "../../types";
 
 export default {
     list,
@@ -21,7 +22,7 @@ export default {
 export async function list(
     context: UFDLServerContext,
     filter?: FilterSpec
-) {
+): Promise<RawJSONObject[]> {
     return await base_actions.list(context, DATASETS_URL, filter);
 }
 
@@ -33,7 +34,7 @@ export async function create(
     description: string = "",
     is_public: boolean = false,
     tags: string = ""
-) {
+): Promise<RawJSONObject> {
     return await base_actions.create(
         context,
         DATASETS_URL,
@@ -51,7 +52,7 @@ export async function create(
 export async function retrieve(
     context: UFDLServerContext,
     pk: bigint
-) {
+): Promise<RawJSONObject> {
     return await base_actions.retrieve(context, DATASETS_URL, pk);
 }
 
@@ -64,7 +65,7 @@ export async function update(
     licence: bigint,
     is_public: boolean,
     tags: string
-) {
+): Promise<RawJSONObject> {
     return await base_actions.update(
         context,
         DATASETS_URL,
@@ -89,7 +90,7 @@ export async function partial_update(
     licence?: bigint,
     is_public?: boolean,
     tags?: string
-) {
+): Promise<RawJSONObject> {
     return await base_actions.partial_update(
         context,
         DATASETS_URL,
@@ -108,7 +109,7 @@ export async function partial_update(
 export async function destroy(
     context: UFDLServerContext,
     pk: bigint
-) {
+): Promise<void> {
     await base_actions.destroy(context, DATASETS_URL, pk);
 }
 
@@ -116,7 +117,7 @@ export async function download(
     context: UFDLServerContext,
     pk: bigint,
     filetype = "zip"
-) {
+): Promise<ReadableStream<Uint8Array>> {
     return await mixin_actions.download(context, DATASETS_URL, pk, filetype);
 }
 
@@ -125,7 +126,7 @@ export async function add_file(
     pk: bigint,
     filename: string,
     data: Blob | BufferSource | ReadableStream<Uint8Array>
-) {
+): Promise<RawJSONObject> {
     return await mixin_actions.add_file(context, DATASETS_URL, pk, filename, data);
 }
 
@@ -133,7 +134,7 @@ export async function get_file(
     context: UFDLServerContext,
     pk: bigint,
     filename: string
-) {
+): Promise<ReadableStream<Uint8Array>> {
     return await mixin_actions.get_file(context, DATASETS_URL, pk, filename);
 }
 
@@ -141,7 +142,7 @@ export async function delete_file(
     context: UFDLServerContext,
     pk: bigint,
     filename: string
-) {
+): Promise<RawJSONObject> {
     return await mixin_actions.delete_file(context, DATASETS_URL, pk, filename);
 }
 
@@ -155,7 +156,7 @@ export async function copy(
     context: UFDLServerContext,
     pk: bigint,
     new_name?: string
-) {
+): Promise<RawJSONObject> {
     return await mixin_actions.copy(context, DATASETS_URL, pk, {new_name: new_name});
 }
 

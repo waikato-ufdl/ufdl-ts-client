@@ -2,6 +2,7 @@
 
 import UFDLServerContext from "../../UFDLServerContext";
 import {Annotation} from "../../json/generated/Annotation";
+import {RawJSONObject} from "../../types";
 
 export default {
     get_annotations,
@@ -14,7 +15,7 @@ export async function get_annotations(
     context: UFDLServerContext,
     url: string,
     pk: bigint
-): Promise<{}> {
+): Promise<RawJSONObject> {
     let response = await context.get(`${url}/${pk}/annotations`);
 
     return response.json();
@@ -25,7 +26,7 @@ export async function get_annotations_for_image(
     url: string,
     pk: bigint,
     image: string
-): Promise<{}> {
+): Promise<RawJSONObject> {
     let response = await context.get(`${url}/${pk}/annotations/${image}`);
 
     return response.json();

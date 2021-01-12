@@ -1,12 +1,13 @@
 import UFDLServerContext from "../UFDLServerContext";
 import {FilterSpec} from "../json/generated/FilterSpec";
 import {Nullable} from "../util";
+import {RawJSONObject} from "../types";
 
 export async function list(
     context: UFDLServerContext,
     url: string,
     filter?: FilterSpec
-): Promise<{}[]> {
+): Promise<RawJSONObject[]> {
     let filterSpec: Nullable<FilterSpec>;
     if (filter === undefined)
         filterSpec = null;
@@ -22,7 +23,7 @@ export async function create(
     context: UFDLServerContext,
     url: string,
     params: {}
-): Promise<{}> {
+): Promise<RawJSONObject> {
     let response = await context.post(`${url}/create`, params);
 
     return response.json();
@@ -32,7 +33,7 @@ export async function retrieve(
     context: UFDLServerContext,
     url: string,
     pk: bigint
-): Promise<{}> {
+): Promise<RawJSONObject> {
     let response = await context.get(`${url}/${pk}`);
 
     return response.json();
@@ -43,7 +44,7 @@ export async function update(
     url: string,
     pk: bigint,
     params: {}
-): Promise<{}> {
+): Promise<RawJSONObject> {
     let response = await context.put(`${url}/${pk}`, params);
 
     return response.json();
@@ -54,7 +55,7 @@ export async function partial_update(
     url: string,
     pk: bigint,
     params: {}
-): Promise<{}> {
+): Promise<RawJSONObject> {
     let response = await context.patch(`${url}/${pk}`, params);
 
     return response.json();

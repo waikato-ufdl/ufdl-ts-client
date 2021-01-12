@@ -5,6 +5,7 @@ import {OBJECT_DETECTION_DATASETS_URL} from "../../constants";
 import * as core_mixin_actions from "../core/mixin_actions";
 import * as mixin_actions from "./mixin_actions";
 import {Annotation} from "../../json/generated/Annotation";
+import {RawJSONObject} from "../../types";
 
 export default {
     list,
@@ -27,7 +28,7 @@ export default {
 export async function list(
     context: UFDLServerContext,
     filter?: FilterSpec
-) {
+): Promise<RawJSONObject[]> {
     return await base_actions.list(context, OBJECT_DETECTION_DATASETS_URL, filter);
 }
 
@@ -39,7 +40,7 @@ export async function create(
     description: string = "",
     is_public: boolean = false,
     tags: string = ""
-) {
+): Promise<RawJSONObject> {
     return await base_actions.create(
         context,
         OBJECT_DETECTION_DATASETS_URL,
@@ -57,7 +58,7 @@ export async function create(
 export async function retrieve(
     context: UFDLServerContext,
     pk: bigint
-) {
+): Promise<RawJSONObject> {
     return await base_actions.retrieve(context, OBJECT_DETECTION_DATASETS_URL, pk);
 }
 
@@ -70,7 +71,7 @@ export async function update(
     licence: bigint,
     is_public: boolean,
     tags: string
-) {
+): Promise<RawJSONObject> {
     return await base_actions.update(
         context,
         OBJECT_DETECTION_DATASETS_URL,
@@ -95,7 +96,7 @@ export async function partial_update(
     licence?: bigint,
     is_public?: boolean,
     tags?: string
-) {
+): Promise<RawJSONObject> {
     return await base_actions.partial_update(
         context,
         OBJECT_DETECTION_DATASETS_URL,
@@ -114,7 +115,7 @@ export async function partial_update(
 export async function destroy(
     context: UFDLServerContext,
     pk: bigint
-) {
+): Promise<void> {
     await base_actions.destroy(context, OBJECT_DETECTION_DATASETS_URL, pk);
 }
 
@@ -122,7 +123,7 @@ export async function download(
     context: UFDLServerContext,
     pk: bigint,
     filetype = "zip"
-) {
+): Promise<ReadableStream<Uint8Array>> {
     return await core_mixin_actions.download(context, OBJECT_DETECTION_DATASETS_URL, pk, filetype);
 }
 
@@ -131,7 +132,7 @@ export async function add_file(
     pk: bigint,
     filename: string,
     data: Blob | BufferSource | ReadableStream<Uint8Array>
-) {
+): Promise<RawJSONObject> {
     return await core_mixin_actions.add_file(context, OBJECT_DETECTION_DATASETS_URL, pk, filename, data);
 }
 
@@ -139,7 +140,7 @@ export async function get_file(
     context: UFDLServerContext,
     pk: bigint,
     filename: string
-) {
+): Promise<ReadableStream<Uint8Array>> {
     return await core_mixin_actions.get_file(context, OBJECT_DETECTION_DATASETS_URL, pk, filename);
 }
 
@@ -147,7 +148,7 @@ export async function delete_file(
     context: UFDLServerContext,
     pk: bigint,
     filename: string
-) {
+): Promise<RawJSONObject> {
     return await core_mixin_actions.delete_file(context, OBJECT_DETECTION_DATASETS_URL, pk, filename);
 }
 
@@ -161,7 +162,7 @@ export async function copy(
     context: UFDLServerContext,
     pk: bigint,
     new_name?: string
-) {
+): Promise<RawJSONObject> {
     return await core_mixin_actions.copy(context, OBJECT_DETECTION_DATASETS_URL, pk, {new_name: new_name});
 }
 
@@ -176,7 +177,7 @@ export async function copy(
 export async function get_annotations(
     context: UFDLServerContext,
     pk: bigint
-) {
+): Promise<RawJSONObject> {
     return await mixin_actions.get_annotations(context, OBJECT_DETECTION_DATASETS_URL, pk);
 }
 
@@ -184,7 +185,7 @@ export async function get_annotations_for_image(
     context: UFDLServerContext,
     pk: bigint,
     image: string
-) {
+): Promise<RawJSONObject> {
     return await mixin_actions.get_annotations_for_image(context, OBJECT_DETECTION_DATASETS_URL, pk, image);
 }
 
@@ -193,7 +194,7 @@ export async function set_annotations_for_image(
     pk: bigint,
     image: string,
     annotations: Annotation[]
-) {
+): Promise<void> {
     await mixin_actions.set_annotations_for_image(context, OBJECT_DETECTION_DATASETS_URL, pk, image, annotations);
 }
 
@@ -201,7 +202,7 @@ export async function delete_annotations_for_image(
     context: UFDLServerContext,
     pk: bigint,
     image: string
-) {
+): Promise<void> {
     await mixin_actions.delete_annotations_for_image(context, OBJECT_DETECTION_DATASETS_URL, pk, image);
 }
 
