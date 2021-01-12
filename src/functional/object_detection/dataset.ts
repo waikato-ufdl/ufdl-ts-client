@@ -7,24 +7,6 @@ import * as mixin_actions from "./mixin_actions";
 import {Annotation} from "../../json/generated/Annotation";
 import {RawJSONObject} from "../../types";
 
-export default {
-    list,
-    create,
-    retrieve,
-    update,
-    partial_update,
-    destroy,
-    download,
-    add_file,
-    get_file,
-    delete_file,
-    copy,
-    get_annotations,
-    get_annotations_for_image,
-    set_annotations_for_image,
-    delete_annotations_for_image
-}
-
 export async function list(
     context: UFDLServerContext,
     filter?: FilterSpec

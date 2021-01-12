@@ -1,9 +1,9 @@
 import UFDLServerContext from "../../UFDLServerContext";
 import {FilterSpec} from "../../json/generated/FilterSpec";
 import {RawJSONObject} from "../../types";
-import base_actions from "../base_actions";
+import * as base_actions from "../base_actions";
 import {IMAGE_CLASSIFICATION_DATASETS_URL} from "../../constants";
-import core_mixin_actions from "../core/mixin_actions";
+import * as core_mixin_actions from "../core/mixin_actions";
 import * as mixin_actions from "./mixin_actions";
 
 export async function list(

@@ -3,15 +3,6 @@ import {FilterSpec} from "../json/generated/FilterSpec";
 import {Nullable} from "../util";
 import {RawJSONObject} from "../types";
 
-export default {
-    list,
-    create,
-    retrieve,
-    update,
-    partial_update,
-    destroy
-}
-
 export async function list(
     context: UFDLServerContext,
     url: string,

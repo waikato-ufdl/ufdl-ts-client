@@ -2,28 +2,6 @@ import UFDLServerContext from "../../UFDLServerContext";
 import {get_response_stream, get_response_json_value} from "../../util";
 import {RawJSONObject} from "../../types";
 
-export default {
-    acquire_job,
-    release_job,
-    start_job,
-    finish_job,
-    reset_job,
-    abort_job,
-    copy,
-    download,
-    add_file,
-    get_file,
-    delete_file,
-    set_metadata,
-    get_metadata,
-    get_all_metadata,
-    add_membership,
-    remove_membership,
-    update_membership,
-    get_permissions_for_user,
-    ping
-}
-
 // region AcquireJobViewSet
 
 export async function acquire_job(

@@ -4,15 +4,6 @@ import {FilterSpec} from "../../json/generated/FilterSpec";
 import {USERS_URL} from "../../constants";
 import {RawJSONObject} from "../../types";
 
-export default {
-    list,
-    create,
-    retrieve,
-    update,
-    partial_update,
-    destroy
-}
-
 export async function list(
     context: UFDLServerContext,
     filter?: FilterSpec
