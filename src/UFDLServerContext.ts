@@ -1,5 +1,3 @@
-"use strict";
-
 import {JWT_OBTAIN_TOKEN_URL, JWT_REFRESH_TOKEN_URL, JWT_VERIFY_TOKEN_URL} from "./constants";
 import {AccessToken, RefreshToken, Token, Tokens} from "./Tokens";
 import {Method} from "./Method";

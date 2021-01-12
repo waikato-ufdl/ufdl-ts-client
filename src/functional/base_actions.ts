@@ -1,5 +1,3 @@
-"use strict";
-
 import UFDLServerContext from "../UFDLServerContext";
 import {FilterSpec} from "../json/generated/FilterSpec";
 import {Nullable} from "../util";

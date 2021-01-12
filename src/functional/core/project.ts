@@ -1,5 +1,3 @@
-"use strict";
-
 import * as base_actions from "../base_actions";
 import {PROJECTS_URL} from "../../constants";
 import UFDLServerContext from "../../UFDLServerContext";

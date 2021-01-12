@@ -1,5 +1,3 @@
-"use strict";
-
 import UFDLServerContext from "../../UFDLServerContext";
 import {FilterSpec} from "../../json/generated/FilterSpec";
 import * as base_actions from "../base_actions";

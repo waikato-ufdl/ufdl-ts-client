@@ -1,5 +1,3 @@
-"use strict";
-
 // region AnnotationsViewSet
 
 import UFDLServerContext from "../../UFDLServerContext";

@@ -1,5 +1,3 @@
-"use strict";
-
 export const JWT_OBTAIN_TOKEN_URL = "v1/auth/obtain";
 export const JWT_REFRESH_TOKEN_URL = "v1/auth/refresh";
 export const JWT_VERIFY_TOKEN_URL = "v1/auth/verify";

@@ -1,5 +1,3 @@
-"use strict";
-
 import * as base_actions from "../base_actions";
 import {LICENCES_URL} from "../../constants";
 import UFDLServerContext from "../../UFDLServerContext";
