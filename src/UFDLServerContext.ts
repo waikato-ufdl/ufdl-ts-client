@@ -2,10 +2,10 @@ import {JWT_OBTAIN_TOKEN_URL, JWT_REFRESH_TOKEN_URL, JWT_VERIFY_TOKEN_URL} from 
 import {AccessToken, RefreshToken, Token, Tokens} from "./Tokens";
 import {Method} from "./Method";
 import {Nullable, Optional, toHexString} from "./util";
-import {authorization_header, data_payload, json_payload, node_id_header, Payload} from "./payload";
+import {authorization_headers, combine_headers, data_payload, json_payload, node_id_headers, Payload} from "./payload";
 import {digestOf, encodeString, generateKeyFromPassword} from "./sec";
 
-const EMPTY_PAYLOAD: Payload = {headers: {}};
+const EMPTY_PAYLOAD: Payload = {headers: new Headers()};
 
 export default class UFDLServerContext {
     private _host: string;
@@ -72,9 +72,11 @@ export default class UFDLServerContext {
         return generateKeyFromPassword(this._password);
     }
 
-    private get node_id_header(): HeadersInit {
-        if (this._node_id === undefined) return {};
-        return node_id_header(this._node_id);
+    private get node_id_header(): Headers {
+        if (this._node_id === undefined)
+            return EMPTY_PAYLOAD.headers;
+        else
+            return node_id_headers(this._node_id);
     }
 
     // endregion
@@ -309,15 +311,18 @@ export default class UFDLServerContext {
         token: AccessToken
     ): Promise<Response> {
         // Add the authorization header
-        payload.headers = {
-            ...payload.headers,
-            ...authorization_header(token)
+        const payloadWithAuthHeader: Payload = {
+            body: payload.body,
+            headers: combine_headers(
+                payload.headers,
+                authorization_headers(token)
+            )
         };
 
         return this._fetch(
             url,
             method,
-            payload
+            payloadWithAuthHeader
         );
     }
 
@@ -326,17 +331,17 @@ export default class UFDLServerContext {
         method: Method,
         payload: Payload
     ): Promise<Response> {
-        payload.headers = {
-            ...payload.headers,
-            ...this.node_id_header
-        };
+        const headersWithNodeHeader: Headers = combine_headers(
+            payload.headers,
+            this.node_id_header
+        );
 
         return fetch(
             url,
             {
                 method: Method[method],
                 body: payload.body,
-                headers: payload.headers
+                headers: headersWithNodeHeader
             }
         );
     }
