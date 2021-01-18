@@ -21,14 +21,14 @@ export async function create(
 
 export async function retrieve(
     context: UFDLServerContext,
-    pk: bigint
+    pk: number
 ): Promise<RawJSONObject> {
     return base_actions.retrieve(context, LICENCES_URL, pk);
 }
 
 export async function update(
     context: UFDLServerContext,
-    pk: bigint,
+    pk: number,
     name: string,
     url: string
 ): Promise<RawJSONObject> {
@@ -37,7 +37,7 @@ export async function update(
 
 export async function partial_update(
     context: UFDLServerContext,
-    pk: bigint,
+    pk: number,
     name?: string,
     url?: string
 ): Promise<RawJSONObject> {
@@ -46,7 +46,7 @@ export async function partial_update(
 
 export async function destroy(
     context: UFDLServerContext,
-    pk: bigint
+    pk: number
 ): Promise<void> {
     await base_actions.destroy(context, LICENCES_URL, pk);
 }

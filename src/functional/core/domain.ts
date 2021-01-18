@@ -13,7 +13,7 @@ export async function list(
 
 export async function retrieve(
     context: UFDLServerContext,
-    pk: bigint
+    pk: number
 ): Promise<RawJSONObject> {
     return base_actions.retrieve(context, DOMAINS_URL, pk);
 }

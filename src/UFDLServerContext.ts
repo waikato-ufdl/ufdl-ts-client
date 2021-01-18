@@ -12,7 +12,7 @@ export default class UFDLServerContext {
     private _username: string;
     private _password: string;
     private _tokens: Promise<Tokens>;
-    private _node_id?: bigint;
+    private _node_id?: number;
 
     constructor(host: string, username: string, password: string) {
         this._host = host;
@@ -51,11 +51,11 @@ export default class UFDLServerContext {
         this._tokens = this.establish_tokens();
     }
 
-    get node_id(): Optional<bigint> {
+    get node_id(): Optional<number> {
         return this._node_id;
     }
 
-    set node_id(value: Optional<bigint>) {
+    set node_id(value: Optional<number>) {
         this._node_id = value;
     }
 

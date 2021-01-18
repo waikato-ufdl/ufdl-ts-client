@@ -21,14 +21,14 @@ export async function create(
 
 export async function retrieve(
     context: UFDLServerContext,
-    pk: bigint
+    pk: number
 ): Promise<RawJSONObject> {
     return base_actions.retrieve(context, TEAMS_URL, pk);
 }
 
 export async function update(
     context: UFDLServerContext,
-    pk: bigint,
+    pk: number,
     name: string
 ): Promise<RawJSONObject> {
     return base_actions.update(context, TEAMS_URL, pk, {name: name});
@@ -36,7 +36,7 @@ export async function update(
 
 export async function partial_update(
     context: UFDLServerContext,
-    pk: bigint,
+    pk: number,
     name?: string
 ): Promise<RawJSONObject> {
     return base_actions.partial_update(context, TEAMS_URL, pk, {name: name});
@@ -44,14 +44,14 @@ export async function partial_update(
 
 export async function destroy(
     context: UFDLServerContext,
-    pk: bigint
+    pk: number
 ): Promise<void> {
     await base_actions.destroy(context, TEAMS_URL, pk);
 }
 
 export async function add_membership(
     context: UFDLServerContext,
-    pk: bigint,
+    pk: number,
     username: string,
     permissions: string = "R"
 ): Promise<RawJSONObject> {
@@ -60,7 +60,7 @@ export async function add_membership(
 
 export async function remove_membership(
     context: UFDLServerContext,
-    pk: bigint,
+    pk: number,
     username: string
 ): Promise<RawJSONObject> {
     return mixin_actions.remove_membership(context, TEAMS_URL, pk, username);
@@ -68,7 +68,7 @@ export async function remove_membership(
 
 export async function update_membership(
     context: UFDLServerContext,
-    pk: bigint,
+    pk: number,
     username: string,
     permissions: string = "R"
 ): Promise<RawJSONObject> {

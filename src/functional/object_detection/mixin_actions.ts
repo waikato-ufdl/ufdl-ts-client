@@ -7,7 +7,7 @@ import {RawJSONObject} from "../../types";
 export async function get_annotations(
     context: UFDLServerContext,
     url: string,
-    pk: bigint
+    pk: number
 ): Promise<RawJSONObject> {
     let response = await context.get(`${url}/${pk}/annotations`);
 
@@ -17,7 +17,7 @@ export async function get_annotations(
 export async function get_annotations_for_image(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     image: string
 ): Promise<RawJSONObject> {
     let response = await context.get(`${url}/${pk}/annotations/${image}`);
@@ -28,7 +28,7 @@ export async function get_annotations_for_image(
 export async function set_annotations_for_image(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     image: string,
     annotations: Annotation[]
 ): Promise<void> {
@@ -38,7 +38,7 @@ export async function set_annotations_for_image(
 export async function delete_annotations_for_image(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     image: string
 ): Promise<void> {
     await context.delete_(`${url}/${pk}/annotations/${image}`);

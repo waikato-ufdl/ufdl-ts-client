@@ -6,7 +6,7 @@ import {RawJSONObject} from "../../types";
 export async function get_categories(
     context: UFDLServerContext,
     url: string,
-    pk: bigint
+    pk: number
 ): Promise<RawJSONObject> {
     const response = await context.get(`${url}/${pk}/categories`);
 
@@ -16,7 +16,7 @@ export async function get_categories(
 export async function add_categories(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     images: string[],
     categories: string[]
 ): Promise<RawJSONObject> {
@@ -35,7 +35,7 @@ export async function add_categories(
 export async function remove_categories(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     images: string[],
     categories: string[]
 ): Promise<RawJSONObject> {

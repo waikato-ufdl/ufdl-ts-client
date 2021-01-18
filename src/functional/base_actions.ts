@@ -32,7 +32,7 @@ export async function create(
 export async function retrieve(
     context: UFDLServerContext,
     url: string,
-    pk: bigint
+    pk: number
 ): Promise<RawJSONObject> {
     let response = await context.get(`${url}/${pk}`);
 
@@ -42,7 +42,7 @@ export async function retrieve(
 export async function update(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     params: {}
 ): Promise<RawJSONObject> {
     let response = await context.put(`${url}/${pk}`, params);
@@ -53,7 +53,7 @@ export async function update(
 export async function partial_update(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     params: {}
 ): Promise<RawJSONObject> {
     let response = await context.patch(`${url}/${pk}`, params);
@@ -64,7 +64,7 @@ export async function partial_update(
 export async function destroy(
     context: UFDLServerContext,
     url: string,
-    pk: bigint
+    pk: number
 ): Promise<void> {
     await context.delete_(`${url}/${pk}`);
 }

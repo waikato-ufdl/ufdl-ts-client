@@ -17,7 +17,7 @@ export function content_disposition_headers(contentDisposition: string): Headers
     return new Headers({ 'Content-Disposition': contentDisposition });
 }
 
-export function node_id_headers(nodeId: bigint): Headers {
+export function node_id_headers(nodeId: number): Headers {
     return new Headers({ 'Node-Id': nodeId.toString() });
 }
 

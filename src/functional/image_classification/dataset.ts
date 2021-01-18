@@ -16,8 +16,8 @@ export async function list(
 export async function create(
     context: UFDLServerContext,
     name: string,
-    project: bigint,
-    licence: bigint,
+    project: number,
+    licence: number,
     description: string = "",
     is_public: boolean = false,
     tags: string = ""
@@ -38,18 +38,18 @@ export async function create(
 
 export async function retrieve(
     context: UFDLServerContext,
-    pk: bigint
+    pk: number
 ): Promise<RawJSONObject> {
     return await base_actions.retrieve(context, IMAGE_CLASSIFICATION_DATASETS_URL, pk);
 }
 
 export async function update(
     context: UFDLServerContext,
-    pk: bigint,
+    pk: number,
     name: string,
     description: string,
-    project: bigint,
-    licence: bigint,
+    project: number,
+    licence: number,
     is_public: boolean,
     tags: string
 ): Promise<RawJSONObject> {
@@ -70,11 +70,11 @@ export async function update(
 
 export async function partial_update(
     context: UFDLServerContext,
-    pk: bigint,
+    pk: number,
     name?: string,
     description?: string,
-    project?: bigint,
-    licence?: bigint,
+    project?: number,
+    licence?: number,
     is_public?: boolean,
     tags?: string
 ): Promise<RawJSONObject> {
@@ -95,14 +95,14 @@ export async function partial_update(
 
 export async function destroy(
     context: UFDLServerContext,
-    pk: bigint
+    pk: number
 ): Promise<void> {
     await base_actions.destroy(context, IMAGE_CLASSIFICATION_DATASETS_URL, pk);
 }
 
 export async function download(
     context: UFDLServerContext,
-    pk: bigint,
+    pk: number,
     filetype = "zip"
 ): Promise<ReadableStream<Uint8Array>> {
     return await core_mixin_actions.download(context, IMAGE_CLASSIFICATION_DATASETS_URL, pk, filetype);
@@ -110,7 +110,7 @@ export async function download(
 
 export async function add_file(
     context: UFDLServerContext,
-    pk: bigint,
+    pk: number,
     filename: string,
     data: Blob | BufferSource | ReadableStream<Uint8Array>
 ): Promise<RawJSONObject> {
@@ -119,7 +119,7 @@ export async function add_file(
 
 export async function get_file(
     context: UFDLServerContext,
-    pk: bigint,
+    pk: number,
     filename: string
 ): Promise<ReadableStream<Uint8Array>> {
     return await core_mixin_actions.get_file(context, IMAGE_CLASSIFICATION_DATASETS_URL, pk, filename);
@@ -127,7 +127,7 @@ export async function get_file(
 
 export async function delete_file(
     context: UFDLServerContext,
-    pk: bigint,
+    pk: number,
     filename: string
 ): Promise<RawJSONObject> {
     return await core_mixin_actions.delete_file(context, IMAGE_CLASSIFICATION_DATASETS_URL, pk, filename);
@@ -141,7 +141,7 @@ export async function delete_file(
 
 export async function copy(
     context: UFDLServerContext,
-    pk: bigint,
+    pk: number,
     new_name?: string
 ): Promise<RawJSONObject> {
     return await core_mixin_actions.copy(context, IMAGE_CLASSIFICATION_DATASETS_URL, pk, {new_name: new_name});
@@ -157,7 +157,7 @@ export async function copy(
 
 export async function get_categories(
     context: UFDLServerContext,
-    pk: bigint
+    pk: number
 ): Promise<RawJSONObject> {
     return mixin_actions.get_categories(
         context,
@@ -168,7 +168,7 @@ export async function get_categories(
 
 export async function add_categories(
     context: UFDLServerContext,
-    pk: bigint,
+    pk: number,
     images: string[],
     categories: string[]
 ): Promise<RawJSONObject> {
@@ -183,7 +183,7 @@ export async function add_categories(
 
 export async function remove_categories(
     context: UFDLServerContext,
-    pk: bigint,
+    pk: number,
     images: string[],
     categories: string[]
 ): Promise<RawJSONObject> {

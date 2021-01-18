@@ -7,7 +7,7 @@ import {RawJSONObject} from "../../types";
 export async function acquire_job(
     context: UFDLServerContext,
     url: string,
-    pk: bigint
+    pk: number
 ): Promise<RawJSONObject> {
     let response = await context.get(`${url}/${pk}/acquire`);
 
@@ -17,7 +17,7 @@ export async function acquire_job(
 export async function release_job(
     context: UFDLServerContext,
     url: string,
-    pk: bigint
+    pk: number
 ): Promise<RawJSONObject> {
     let response = await context.get(`${url}/${pk}/release`);
 
@@ -27,7 +27,7 @@ export async function release_job(
 export async function start_job(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     send_notification: string
 ): Promise<RawJSONObject> {
     let response = await context.post(`${url}/${pk}/start`,
@@ -41,7 +41,7 @@ export async function start_job(
 export async function finish_job(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     send_notification: string,
     error?: string
 ): Promise<RawJSONObject> {
@@ -58,7 +58,7 @@ export async function finish_job(
 export async function reset_job(
     context: UFDLServerContext,
     url: string,
-    pk: bigint
+    pk: number
 ): Promise<RawJSONObject> {
     let response = await context.delete_(`${url}/${pk}/reset`);
 
@@ -68,7 +68,7 @@ export async function reset_job(
 export async function abort_job(
     context: UFDLServerContext,
     url: string,
-    pk: bigint
+    pk: number
 ): Promise<RawJSONObject> {
     let response = await context.delete_(`${url}/${pk}/abort`);
 
@@ -94,7 +94,7 @@ export async function abort_job(
 export async function copy(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     params: {}
 ): Promise<RawJSONObject> {
     let response = await context.post(`${url}/${pk}/copy`, params);
@@ -115,7 +115,7 @@ export async function copy(
 export async function download(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     filetype?: string,
     params: {} = {}
 ): Promise<ReadableStream<Uint8Array>> {
@@ -137,7 +137,7 @@ export async function download(
 export async function add_file(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     filename: string,
     data: Blob | BufferSource | ReadableStream<Uint8Array>
 ): Promise<RawJSONObject> {
@@ -153,7 +153,7 @@ export async function add_file(
 export async function get_file(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     filename: string
 ): Promise<ReadableStream<Uint8Array>> {
     let response = await context.download(
@@ -166,7 +166,7 @@ export async function get_file(
 export async function delete_file(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     filename: string
 ): Promise<RawJSONObject> {
     let response = await context.delete_(
@@ -179,7 +179,7 @@ export async function delete_file(
 export async function set_metadata(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     filename: string,
     metadata: string
 ): Promise<string> {
@@ -196,7 +196,7 @@ export async function set_metadata(
 export async function get_metadata(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     filename: string
 ): Promise<string> {
     let response = await context.get(
@@ -209,7 +209,7 @@ export async function get_metadata(
 export async function get_all_metadata(
     context: UFDLServerContext,
     url: string,
-    pk: bigint
+    pk: number
 ): Promise<string> {
     let response = await context.get(
         `${url}/${pk}/metadata`
@@ -243,7 +243,7 @@ export async function get_all_metadata(
 export async function add_membership(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     username: string,
     permissions: string = "R"
 ): Promise<RawJSONObject> {
@@ -262,7 +262,7 @@ export async function add_membership(
 export async function remove_membership(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     username: string
 ): Promise<RawJSONObject> {
     let response = await context.patch(
@@ -279,7 +279,7 @@ export async function remove_membership(
 export async function update_membership(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     username: string,
     permissions: string = "R"
 ): Promise<RawJSONObject> {
@@ -298,7 +298,7 @@ export async function update_membership(
 export async function get_permissions_for_user(
     context: UFDLServerContext,
     url: string,
-    pk: bigint,
+    pk: number,
     username: string
 ): Promise<string> {
     let response = await context.get(
