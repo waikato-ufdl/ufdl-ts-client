@@ -345,6 +345,24 @@ export async function ping(context: UFDLServerContext, url: string): Promise<voi
 
 // region SoftDeleteViewSet
 
-// TODO
+export async function hard_delete(
+    context: UFDLServerContext,
+    url: string,
+    pk: number
+): Promise<RawJSONObject> {
+    const response = await context.delete_(`${url}/${pk}/hard`);
+
+    return response.json();
+}
+
+export async function reinstate(
+    context: UFDLServerContext,
+    url: string,
+    pk: number
+): Promise<RawJSONObject> {
+    const response = await context.delete_(`${url}/${pk}/reinstate`);
+
+    return response.json();
+}
 
 // endregion
