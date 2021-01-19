@@ -2,6 +2,7 @@ import UFDLServerContext from "../../UFDLServerContext";
 import {get_response_stream, get_response_json_value} from "../../util";
 import {RawJSONObject} from "../../types";
 import {CreateJobSpec} from "../../json/generated/CreateJobSpec";
+import {JobTemplateSpec} from "../../json/generated/JobTemplateSpec";
 
 // region AcquireJobViewSet
 
@@ -241,7 +242,25 @@ export async function get_all_metadata(
 
 // region ImportTemplateViewSet
 
-// TODO
+export async function import_template(
+    context: UFDLServerContext,
+    url: string,
+    template: JobTemplateSpec
+): Promise<RawJSONObject> {
+    const response = await context.post(`${url}/import`, template);
+
+    return response.json();
+}
+
+export async function export_template(
+    context: UFDLServerContext,
+    url: string,
+    pk: number
+): Promise<RawJSONObject> {
+    const response = await context.get(`${url}/${pk}/export`);
+
+    return response.json();
+}
 
 // endregion
 
