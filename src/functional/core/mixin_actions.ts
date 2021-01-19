@@ -1,6 +1,7 @@
 import UFDLServerContext from "../../UFDLServerContext";
 import {get_response_stream, get_response_json_value} from "../../util";
 import {RawJSONObject} from "../../types";
+import {CreateJobSpec} from "../../json/generated/CreateJobSpec";
 
 // region AcquireJobViewSet
 
@@ -106,7 +107,19 @@ export async function copy(
 
 // region CreateJobViewSet
 
-// TODO
+export async function create_job(
+    context: UFDLServerContext,
+    url: string,
+    pk: number,
+    specification: CreateJobSpec
+): Promise<RawJSONObject> {
+    const response = await context.post(
+        `${url}/${pk}/create-job`,
+        specification
+    );
+
+    return response.json();
+}
 
 // endregion
 
