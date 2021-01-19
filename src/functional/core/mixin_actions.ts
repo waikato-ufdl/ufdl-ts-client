@@ -81,7 +81,21 @@ export async function abort_job(
 
 // region AddJobOutputViewSet
 
-// TODO
+// TODO: add_output
+
+// TODO: delete_output
+
+export async function get_output(
+    context: UFDLServerContext,
+    url: string,
+    pk: number,
+    name: string,
+    type: string
+): Promise<ReadableStream<Uint8Array>> {
+    const response = await context.download(`${url}/${pk}/outputs/${name}/${type}`);
+
+    return get_response_stream(response);
+}
 
 // endregion
 
