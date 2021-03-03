@@ -33,11 +33,11 @@
   },
   "homepage": "https://github.com/waikato-ufdl/ufdl-js-client#readme",
   "devDependencies": {
+    "@types/node": "^14.14.11",
+    "node": "^15.3.0",
     "quicktype": "^15.0.258",
     "tslib": "^2.0.3",
-    "typescript": "^4.1.2",
-    "@types/node": "^14.14.11",
-    "node": "^15.3.0"
+    "typescript": "^4.1.2"
   },
   "dependencies": {
     "tslib": "^2.0.3"
