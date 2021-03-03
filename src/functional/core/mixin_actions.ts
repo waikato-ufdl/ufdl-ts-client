@@ -97,6 +97,18 @@ export async function get_output(
     return get_response_stream(response);
 }
 
+export async function get_output_info(
+    context: UFDLServerContext,
+    url: string,
+    pk: number,
+    name: string,
+    type: string
+): Promise<RawJSONObject> {
+    const response = await context.get(`${url}/${pk}/outputs/${name}/${type}/info`);
+
+    return response.json();
+}
+
 // endregion
 
 // region ClearDatasetViewSet
@@ -358,7 +370,18 @@ export async function get_permissions_for_user(
 
 // region MergeViewSet
 
-// TODO
+export async function merge(
+    context: UFDLServerContext,
+    url: string,
+    pk: number,
+    sourcePK: number,
+    delete_: boolean,
+    hard?: boolean
+): Promise<RawJSONObject> {
+    const response = await context.post(`${url}/${pk}/merge/${sourcePK}`, {delete: delete_, hard: hard});
+
+    return response.json();
+}
 
 // endregion
 
