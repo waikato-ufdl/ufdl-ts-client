@@ -1,3 +1,9 @@
 export type RawJSONObject = {
-    [key in string]: any
+    [key: string]: RawJSONElement
 }
+
+export type RawJSONArray = RawJSONElement[]
+
+export type RawJSONPrimitive = string | number | boolean | null
+
+export type RawJSONElement = RawJSONObject | RawJSONArray | RawJSONPrimitive
