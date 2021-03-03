@@ -1,10 +1,17 @@
 import UFDLServerContext from "../../../UFDLServerContext";
 import * as mixin_actions from "../mixin_actions";
 import {JOBS_URL} from "../../../constants";
+import {RawJSONObject} from "../../../types";
+import * as base_actions from "../../base_actions";
 
 // TODO: list
 
-// TODO: retrieve
+export async function retrieve(
+    context: UFDLServerContext,
+    pk: number
+): Promise<RawJSONObject> {
+    return base_actions.retrieve(context, JOBS_URL, pk);
+}
 
 // TODO: destroy
 
@@ -19,6 +26,15 @@ export async function get_output(
     type: string
 ): Promise<ReadableStream<Uint8Array>> {
     return mixin_actions.get_output(context, JOBS_URL, pk, name, type);
+}
+
+export async function get_output_info(
+    context: UFDLServerContext,
+    pk: number,
+    name: string,
+    type: string
+): Promise<RawJSONObject> {
+    return mixin_actions.get_output_info(context, JOBS_URL, pk, name, type);
 }
 
 // TODO: hard_delete
