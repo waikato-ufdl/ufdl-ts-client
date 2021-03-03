@@ -142,12 +142,21 @@ export async function delete_file(
 export async function copy(
     context: UFDLServerContext,
     pk: number,
-    new_name?: string
+    new_name?: string,
+    clear_files?: boolean
 ): Promise<RawJSONObject> {
-    return await core_mixin_actions.copy(context, IMAGE_CLASSIFICATION_DATASETS_URL, pk, {new_name: new_name});
+    return await core_mixin_actions.copy(context, IMAGE_CLASSIFICATION_DATASETS_URL, pk, {new_name: new_name, clear_files: clear_files});
 }
 
-// TODO: merge
+export async function merge(
+    context: UFDLServerContext,
+    pk: number,
+    sourcePK: number,
+    delete_: boolean,
+    hard?: boolean
+): Promise<RawJSONObject> {
+    return core_mixin_actions.merge(context, IMAGE_CLASSIFICATION_DATASETS_URL, pk, sourcePK, delete_, hard);
+}
 
 // TODO: hard_delete
 
