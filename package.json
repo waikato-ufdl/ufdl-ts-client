@@ -15,7 +15,8 @@
     "dist-readme": "cp README.md dist/README.md",
     "dist-license": "cp LICENSE dist/LICENSE",
     "dist-all": "npm run dist-mkdir && npm run dist-lib && npm run dist-package && npm run dist-readme && npm run dist-license",
-    "build": "npm run clean && npm run compile-all && npm run dist-all"
+    "build": "npm run clean && npm run compile-all && npm run dist-all",
+    "rebuild": "npm run gen-schema && npm run build"
   },
   "repository": {
     "type": "git",
