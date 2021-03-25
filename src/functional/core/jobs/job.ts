@@ -52,3 +52,10 @@ export async function get_output_info(
 // TODO: reset_job
 
 // TODO: abort_job
+
+export async function cancel_job(
+    context: UFDLServerContext,
+    pk: number
+): Promise<RawJSONObject> {
+    return mixin_actions.cancel_job(context, JOBS_URL, pk);
+}

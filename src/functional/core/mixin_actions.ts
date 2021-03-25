@@ -77,6 +77,16 @@ export async function abort_job(
     return response.json();
 }
 
+export async function cancel_job(
+    context: UFDLServerContext,
+    url: string,
+    pk: number
+): Promise<RawJSONObject> {
+    let response = await context.delete_(`${url}/${pk}/cancel`);
+
+    return response.json();
+}
+
 // endregion
 
 // region AddJobOutputViewSet
