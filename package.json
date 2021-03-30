@@ -1,5 +1,5 @@
 {
-  "name": "ufdl-js-client",
+  "name": "ufdl-ts-client",
   "version": "0.0.1",
   "type": "module",
   "description": "A JavaScript client to connect the UFDL web frontend to the backend.",
@@ -20,19 +20,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/waikato-ufdl/ufdl-js-client.git"
+    "url": "git+https://github.com/waikato-ufdl/ufdl-ts-client.git"
   },
   "keywords": [
     "UFDL",
-    "JS",
+    "TS",
     "client"
   ],
   "author": "Waikato UFDL",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/waikato-ufdl/ufdl-js-client/issues"
+    "url": "https://github.com/waikato-ufdl/ufdl-ts-client/issues"
   },
-  "homepage": "https://github.com/waikato-ufdl/ufdl-js-client#readme",
+  "homepage": "https://github.com/waikato-ufdl/ufdl-ts-client#readme",
   "devDependencies": {
     "@types/node": "^14.14.11",
     "node": "^15.3.0",
