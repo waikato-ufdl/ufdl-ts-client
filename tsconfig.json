@@ -29,7 +29,7 @@
     "importHelpers": true,
     "removeComments": true,
     "sourceMap": true,
-    "sourceRoot": "https://github.com/waikato-ufdl/ufdl-js-client/tree/master/src"
+    "sourceRoot": "https://github.com/waikato-ufdl/ufdl-ts-client/tree/master/src"
   },
   "include": [
     "src/**/*"

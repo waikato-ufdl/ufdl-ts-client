@@ -1,2 +1,2 @@
-# ufdl-js-client
-Core JavaScript library for accessing the UFDL backend, managing the communication. 
+# ufdl-ts-client
+Core TypeScript library for accessing the UFDL backend, managing the communication. 
