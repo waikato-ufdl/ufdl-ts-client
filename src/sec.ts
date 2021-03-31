@@ -1,4 +1,11 @@
+/*
+ * Provides security services to the UFDL connection.
+ */
+
+/** UTF-8 string encoder. */
 const encoder = new TextEncoder();
+
+/** UTF-8 string decoder. */
 const decoder = new TextDecoder();
 
 // TODO: Generate random string to use in place of this
