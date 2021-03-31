@@ -3,7 +3,7 @@ import {AccessToken, RefreshToken, Token, Tokens} from "./Tokens";
 import {Method} from "./Method";
 import {Nullable, Optional, toHexString} from "./util";
 import {authorization_headers, combine_headers, data_payload, json_payload, node_id_headers, Payload} from "./payload";
-import {digestOf, encodeString, generateKeyFromPassword} from "./sec";
+import UFDLCrypto from "./UFDLCrypto";
 
 const EMPTY_PAYLOAD: Payload = {headers: new Headers()};
 
@@ -63,13 +63,15 @@ export default class UFDLServerContext {
 
     private async get_local_storage_key(): Promise<string> {
         const storageKeyRaw = `_UFDL_${this.host}_${this.username}_${this.password}_`;
-        const encoded = encodeString(storageKeyRaw);
-        const digest = await digestOf(encoded);
+        if (UFDLCrypto === undefined) return storageKeyRaw;
+        const encoded = UFDLCrypto.encodeString(storageKeyRaw);
+        const digest = await UFDLCrypto.digestOf(encoded);
         return toHexString(digest.slice(0, 50));
     }
 
-    private get crypto_key(): Promise<CryptoKey> {
-        return generateKeyFromPassword(this._password);
+    private get crypto_key(): Promise<CryptoKey | undefined> {
+        if (UFDLCrypto === undefined) return Promise.resolve(undefined);
+        return UFDLCrypto.generateKeyFromPassword(this._password);
     }
 
     private get node_id_header(): Headers {

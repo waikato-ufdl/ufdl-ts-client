@@ -1,4 +1,4 @@
-import {decrypt, encrypt} from "./sec";
+import UFDLCrypto from "./UFDLCrypto";
 
 export class Token {
     _value: string;
@@ -32,13 +32,21 @@ export class Tokens {
         return this._refresh;
     }
 
-    async serialise(key: CryptoKey): Promise<string> {
-        return encrypt(`${this._access} ${this._refresh}`, key);
+    async serialise(key: CryptoKey | undefined): Promise<string> {
+        const serialisedRaw = `${this._access} ${this._refresh}`;
+
+        if (UFDLCrypto === undefined || key === undefined) return serialisedRaw;
+
+        return UFDLCrypto.encrypt(serialisedRaw, key);
     }
 
-    static async deserialise(serialised: string, key: CryptoKey): Promise<Tokens> {
-        const decrypted = await decrypt(serialised, key);
+    static async deserialise(serialised: string, key: CryptoKey | undefined): Promise<Tokens> {
+        const decrypted = UFDLCrypto === undefined || key === undefined ?
+            serialised :
+            await UFDLCrypto.decrypt(serialised, key);
+
         let tokens: string[] = decrypted.split(" ");
+
         return this.fromString(tokens[0], tokens[1]);
     }
 
