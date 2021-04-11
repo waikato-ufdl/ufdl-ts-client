@@ -1,5 +1,3 @@
-import UFDLCrypto from "./UFDLCrypto";
-
 export class Token {
     _value: string;
 
@@ -32,20 +30,12 @@ export class Tokens {
         return this._refresh;
     }
 
-    async serialise(key: CryptoKey | undefined): Promise<string> {
-        const serialisedRaw = `${this._access} ${this._refresh}`;
-
-        if (UFDLCrypto === undefined || key === undefined) return serialisedRaw;
-
-        return UFDLCrypto.encrypt(serialisedRaw, key);
+    serialise(): string {
+        return `${this._access} ${this._refresh}`;
     }
 
-    static async deserialise(serialised: string, key: CryptoKey | undefined): Promise<Tokens> {
-        const decrypted = UFDLCrypto === undefined || key === undefined ?
-            serialised :
-            await UFDLCrypto.decrypt(serialised, key);
-
-        let tokens: string[] = decrypted.split(" ");
+    static async deserialise(serialised: string): Promise<Tokens> {
+        let tokens: string[] = serialised.split(" ");
 
         return this.fromString(tokens[0], tokens[1]);
     }

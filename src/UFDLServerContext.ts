@@ -7,26 +7,28 @@ import UFDLCrypto from "./UFDLCrypto";
 
 const EMPTY_PAYLOAD: Payload = {headers: new Headers()};
 
+const TOKEN_STORAGE_KEY = "_TOKENS_";
+
 export default class UFDLServerContext {
     private _host: string;
     private _username: string;
     private _password: string;
     private _tokens: Promise<Tokens>;
     private _node_id?: number;
-    private _cache: Storage;
+    private readonly _storage: Storage;
 
     constructor(
         host: string,
         username: string,
         password: string,
-        cache: Storage = localStorage
+        storage: Storage = localStorage
     ) {
         this._host = host;
         this._username = username;
         this._password = password;
         this._node_id = undefined;
         this._tokens = this.establish_tokens();
-        this._cache = cache;
+        this._storage = storage;
     }
 
     /***
@@ -68,14 +70,6 @@ export default class UFDLServerContext {
 
     // region CALCULATED PROPERTIES
 
-    private async get_local_storage_key(): Promise<string> {
-        const storageKeyRaw = `_UFDL_${this.host}_${this.username}_${this.password}_`;
-        if (UFDLCrypto === undefined) return storageKeyRaw;
-        const encoded = UFDLCrypto.encodeString(storageKeyRaw);
-        const digest = await UFDLCrypto.digestOf(encoded);
-        return toHexString(digest.slice(0, 50));
-    }
-
     private get crypto_key(): Promise<CryptoKey | undefined> {
         if (UFDLCrypto === undefined) return Promise.resolve(undefined);
         return UFDLCrypto.generateKeyFromPassword(this._password);
@@ -86,6 +80,42 @@ export default class UFDLServerContext {
             return EMPTY_PAYLOAD.headers;
         else
             return node_id_headers(this._node_id);
+    }
+
+    // endregion
+
+    // region STORAGE
+
+    private async get_storage_key(key: string): Promise<string> {
+        const storageKeyRaw = `_UFDL_${this.host}_${this.username}_${key}_`;
+        if (UFDLCrypto === undefined) return storageKeyRaw;
+        const encoded = UFDLCrypto.encodeString(storageKeyRaw);
+        const digest = await UFDLCrypto.digestOf(encoded);
+        return toHexString(digest.slice(0, 50));
+    }
+
+    async get_item(key: string): Promise<string | null> {
+        const storage_key = await this.get_storage_key(key);
+        const crypto_key = await this.crypto_key;
+
+        let encrypted = this._storage.getItem(storage_key);
+
+        if (encrypted === null) return null;
+
+        return UFDLCrypto === undefined || crypto_key === undefined ?
+            encrypted :
+            await UFDLCrypto.decrypt(encrypted, crypto_key);
+    }
+
+    async store_item(key: string, value: string) {
+        const storage_key = await this.get_storage_key(key);
+        const crypto_key = await this.crypto_key;
+
+        const encrypted = UFDLCrypto === undefined || crypto_key === undefined
+            ? value
+            : await UFDLCrypto.encrypt(value, crypto_key);
+
+        this._storage.setItem(storage_key, encrypted);
     }
 
     // endregion
@@ -105,16 +135,14 @@ export default class UFDLServerContext {
     }
 
     private async establish_tokens(): Promise<Tokens> {
-        const local_storage_key = await this.get_local_storage_key();
-
-        let tokens = this._cache.getItem(local_storage_key);
+        let tokens = await this.get_item(TOKEN_STORAGE_KEY);
 
         if (tokens === null) {
             const tokens = await this._jwt_obtain();
             this.store_tokens(tokens);
             return tokens;
         } else {
-            return Tokens.deserialise(tokens, await this.crypto_key);
+            return Tokens.deserialise(tokens);
         }
     }
 
@@ -150,10 +178,7 @@ export default class UFDLServerContext {
     }
 
     private async store_tokens(tokens: Tokens) {
-        const local_storage_key = await this.get_local_storage_key();
-        const crypto_key = await this.crypto_key;
-        const serialised_tokens = await tokens.serialise(crypto_key);
-        this._cache.setItem(local_storage_key, serialised_tokens);
+        this.store_item(TOKEN_STORAGE_KEY, tokens.serialise());
     }
 
     // endregion
