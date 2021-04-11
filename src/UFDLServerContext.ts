@@ -13,13 +13,20 @@ export default class UFDLServerContext {
     private _password: string;
     private _tokens: Promise<Tokens>;
     private _node_id?: number;
+    private _cache: Storage;
 
-    constructor(host: string, username: string, password: string) {
+    constructor(
+        host: string,
+        username: string,
+        password: string,
+        cache: Storage = localStorage
+    ) {
         this._host = host;
         this._username = username;
         this._password = password;
         this._node_id = undefined;
         this._tokens = this.establish_tokens();
+        this._cache = cache;
     }
 
     /***
@@ -100,7 +107,7 @@ export default class UFDLServerContext {
     private async establish_tokens(): Promise<Tokens> {
         const local_storage_key = await this.get_local_storage_key();
 
-        let tokens = localStorage.getItem(local_storage_key);
+        let tokens = this._cache.getItem(local_storage_key);
 
         if (tokens === null) {
             const tokens = await this._jwt_obtain();
@@ -146,7 +153,7 @@ export default class UFDLServerContext {
         const local_storage_key = await this.get_local_storage_key();
         const crypto_key = await this.crypto_key;
         const serialised_tokens = await tokens.serialise(crypto_key);
-        localStorage.setItem(local_storage_key, serialised_tokens);
+        this._cache.setItem(local_storage_key, serialised_tokens);
     }
 
     // endregion
