@@ -45,10 +45,6 @@ export default class UFDLServerContext {
         return this._password;
     }
 
-    get cache(): Storage {
-        return this._cache;
-    }
-
     public change_server(host: string): void {
         if (host == this._host) return;
         this._host = host;
