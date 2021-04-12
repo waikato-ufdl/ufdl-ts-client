@@ -86,36 +86,63 @@ export default class UFDLServerContext {
 
     // region STORAGE
 
-    private async get_storage_key(key: string): Promise<string> {
+    private get_storage_key(key: string): Promise<string>;
+    private get_storage_key(key: string, useCrypto: true): Promise<string>;
+    private get_storage_key(key: string, useCrypto: false): string;
+    private get_storage_key(key: string, useCrypto: boolean): Promise<string> | string;
+    private get_storage_key(key: string, useCrypto: boolean = true): Promise<string> | string {
         const storageKeyRaw = `_UFDL_${this.host}_${this.username}_${key}_`;
-        if (UFDLCrypto === undefined) return storageKeyRaw;
-        const encoded = UFDLCrypto.encodeString(storageKeyRaw);
-        const digest = await UFDLCrypto.digestOf(encoded);
-        return toHexString(digest.slice(0, 50));
+
+        if (!useCrypto) return storageKeyRaw;
+
+        return (async () => {
+            if (UFDLCrypto === undefined) return storageKeyRaw;
+            const encoded = UFDLCrypto.encodeString(storageKeyRaw);
+            const digest = await UFDLCrypto.digestOf(encoded);
+            return toHexString(digest.slice(0, 50));
+        })();
     }
 
-    async get_item(key: string): Promise<string | null> {
-        const storage_key = await this.get_storage_key(key);
-        const crypto_key = await this.crypto_key;
+    get_item(key: string): Promise<string | null>;
+    get_item(key: string, useCrypto: true): Promise<string | null>;
+    get_item(key: string, useCrypto: false): string | null;
+    get_item(key: string, useCrypto: boolean): Promise<string | null> | string | null;
+    get_item(key: string, useCrypto: boolean = true): Promise<string | null> | string | null {
+        const storage_key = this.get_storage_key(key, useCrypto);
 
-        let encrypted = this._storage.getItem(storage_key);
+        if (!useCrypto) return this._storage.getItem(storage_key as string);
 
-        if (encrypted === null) return null;
+        return (async () => {
+            const crypto_key = await this.crypto_key;
 
-        return UFDLCrypto === undefined || crypto_key === undefined ?
-            encrypted :
-            await UFDLCrypto.decrypt(encrypted, crypto_key);
+            let encrypted = this._storage.getItem(await storage_key);
+
+            if (encrypted === null) return null;
+
+            return UFDLCrypto === undefined || crypto_key === undefined ?
+                encrypted :
+                await UFDLCrypto.decrypt(encrypted, crypto_key);
+        })();
     }
 
-    async store_item(key: string, value: string) {
-        const storage_key = await this.get_storage_key(key);
-        const crypto_key = await this.crypto_key;
+    store_item(key: string, value: string): Promise<void>;
+    store_item(key: string, value: string, useCrypto: true): Promise<void>;
+    store_item(key: string, value: string, useCrypto: false): void;
+    store_item(key: string, value: string, useCrypto: boolean): Promise<void> | void;
+    store_item(key: string, value: string, useCrypto: boolean = true): Promise<void> | void {
+        const storage_key = this.get_storage_key(key, useCrypto);
 
-        const encrypted = UFDLCrypto === undefined || crypto_key === undefined
-            ? value
-            : await UFDLCrypto.encrypt(value, crypto_key);
+        if (!useCrypto) return this._storage.setItem(storage_key as string, value);
 
-        this._storage.setItem(storage_key, encrypted);
+        return (async () => {
+            const crypto_key = await this.crypto_key;
+
+            const encrypted = UFDLCrypto === undefined || crypto_key === undefined
+                ? value
+                : await UFDLCrypto.encrypt(value, crypto_key);
+
+            this._storage.setItem(await storage_key, encrypted);
+        })();
     }
 
     // endregion
