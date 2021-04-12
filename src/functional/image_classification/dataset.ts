@@ -133,6 +133,14 @@ export async function delete_file(
     return await core_mixin_actions.delete_file(context, IMAGE_CLASSIFICATION_DATASETS_URL, pk, filename);
 }
 
+export async function get_file_by_handle(
+    context: UFDLServerContext,
+    pk: number,
+    handle: string
+): Promise<ReadableStream<Uint8Array>> {
+    return await core_mixin_actions.get_file_by_handle(context, IMAGE_CLASSIFICATION_DATASETS_URL, pk, handle);
+}
+
 // TODO: set_metadata
 
 // TODO: get_metadata

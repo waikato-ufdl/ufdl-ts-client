@@ -226,6 +226,19 @@ export async function delete_file(
     return response.json();
 }
 
+export async function get_file_by_handle(
+    context: UFDLServerContext,
+    url: string,
+    pk: number,
+    handle: string
+): Promise<ReadableStream<Uint8Array>> {
+    let response = await context.download(
+        `${url}/${pk}/file-handles/${handle}`
+    );
+
+    return get_response_stream(response);
+}
+
 export async function set_metadata(
     context: UFDLServerContext,
     url: string,

@@ -132,6 +132,14 @@ export async function delete_file(
     return await mixin_actions.delete_file(context, DATASETS_URL, pk, filename);
 }
 
+export async function get_file_by_handle(
+    context: UFDLServerContext,
+    pk: number,
+    handle: string
+): Promise<ReadableStream<Uint8Array>> {
+    return await mixin_actions.get_file_by_handle(context, DATASETS_URL, pk, handle);
+}
+
 // TODO: set_metadata
 
 // TODO: get_metadata
