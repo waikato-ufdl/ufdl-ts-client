@@ -1,0 +1,81 @@
+{
+  "type": "object",
+  "properties": {
+    "annotations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "height": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "width": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "x": {
+            "type": "integer"
+          },
+          "y": {
+            "type": "integer"
+          },
+          "polygon": {
+            "type": "object",
+            "properties": {
+              "points": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "minItems": 2,
+                  "maxItems": 2
+                },
+                "minItems": 3
+              }
+            },
+            "required": [
+              "points"
+            ],
+            "additionalProperties": false
+          },
+          "prefix": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "height",
+          "label",
+          "width",
+          "x",
+          "y"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "format": {
+      "type": "string"
+    }
+  },
+  "definitions": {},
+  "required": [
+    "annotations"
+  ],
+  "additionalProperties": false
+}
