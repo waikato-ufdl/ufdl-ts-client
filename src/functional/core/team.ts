@@ -76,8 +76,37 @@ export async function update_membership(
     return mixin_actions.update_membership(context, TEAMS_URL, pk, username, permissions);
 }
 
-// TODO: get_permissions_for_user
+export async function get_permissions_for_user(
+    context: UFDLServerContext,
+    pk: number,
+    username: string
+): Promise<Permissions> {
+    return mixin_actions.get_permissions_for_user(
+        context,
+        TEAMS_URL,
+        pk,
+        username
+    );
+}
 
-// TODO hard_delete
+export async function hard_delete(
+    context: UFDLServerContext,
+    pk: number
+): Promise<TeamInstance> {
+    return mixin_actions.hard_delete(
+        context,
+        TEAMS_URL,
+        pk
+    );
+}
 
-// TODO: reinstate
+export async function reinstate(
+    context: UFDLServerContext,
+    pk: number
+): Promise<TeamInstance> {
+    return mixin_actions.reinstate(
+        context,
+        TEAMS_URL,
+        pk
+    );
+}
