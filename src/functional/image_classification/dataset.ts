@@ -143,11 +143,44 @@ export async function get_file_by_handle(
     return await core_mixin_actions.get_file_by_handle(context, IMAGE_CLASSIFICATION_DATASETS_URL, pk, handle);
 }
 
-// TODO: set_metadata
+export async function set_metadata(
+    context: UFDLServerContext,
+    pk: number,
+    filename: string,
+    metadata: string
+): Promise<string> {
+    return core_mixin_actions.set_metadata(
+        context,
+        IMAGE_CLASSIFICATION_DATASETS_URL,
+        pk,
+        filename,
+        metadata
+    );
+}
 
-// TODO: get_metadata
+export async function get_metadata(
+    context: UFDLServerContext,
+    pk: number,
+    filename: string
+): Promise<string> {
+    return core_mixin_actions.get_metadata(
+        context,
+        IMAGE_CLASSIFICATION_DATASETS_URL,
+        pk,
+        filename
+    );
+}
 
-// TODO: get_all_metadata
+export async function get_all_metadata(
+    context: UFDLServerContext,
+    pk: number
+): Promise<{readonly [filename: string]: string | undefined}> {
+    return core_mixin_actions.get_all_metadata(
+        context,
+        IMAGE_CLASSIFICATION_DATASETS_URL,
+        pk
+    );
+}
 
 export async function copy(
     context: UFDLServerContext,
@@ -168,11 +201,39 @@ export async function merge(
     return core_mixin_actions.merge(context, IMAGE_CLASSIFICATION_DATASETS_URL, pk, sourcePK, delete_, hard);
 }
 
-// TODO: hard_delete
+export async function hard_delete(
+    context: UFDLServerContext,
+    pk: number
+): Promise<DatasetInstance> {
+    return core_mixin_actions.hard_delete(
+        context,
+        IMAGE_CLASSIFICATION_DATASETS_URL,
+        pk
+    );
+}
 
-// TODO: reinstate
+export async function reinstate(
+    context: UFDLServerContext,
+    pk: number
+): Promise<DatasetInstance> {
+    return core_mixin_actions.reinstate(
+        context,
+        IMAGE_CLASSIFICATION_DATASETS_URL,
+        pk
+    );
+}
 
-// TODO: clear
+export async function clear(
+    context: UFDLServerContext,
+    pk: number
+): Promise<DatasetInstance> {
+    return core_mixin_actions.clear(
+        context,
+        IMAGE_CLASSIFICATION_DATASETS_URL,
+        pk
+    );
+}
+
 
 export async function get_categories(
     context: UFDLServerContext,
