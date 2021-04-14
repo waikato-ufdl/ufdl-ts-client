@@ -142,11 +142,44 @@ export async function get_file_by_handle(
     return await mixin_actions.get_file_by_handle(context, DATASETS_URL, pk, handle);
 }
 
-// TODO: set_metadata
+export async function set_metadata(
+    context: UFDLServerContext,
+    pk: number,
+    filename: string,
+    metadata: string
+): Promise<string> {
+    return mixin_actions.set_metadata(
+        context,
+        DATASETS_URL,
+        pk,
+        filename,
+        metadata
+    );
+}
 
-// TODO: get_metadata
+export async function get_metadata(
+    context: UFDLServerContext,
+    pk: number,
+    filename: string
+): Promise<string> {
+    return mixin_actions.get_metadata(
+        context,
+        DATASETS_URL,
+        pk,
+        filename
+    );
+}
 
-// TODO: get_all_metadata
+export async function get_all_metadata(
+    context: UFDLServerContext,
+    pk: number
+): Promise<{readonly [filename: string]: string | undefined}> {
+    return mixin_actions.get_all_metadata(
+        context,
+        DATASETS_URL,
+        pk
+    );
+}
 
 export async function copy(
     context: UFDLServerContext,
@@ -167,8 +200,35 @@ export async function merge(
     return mixin_actions.merge(context, DATASETS_URL, pk, sourcePK, delete_, hard);
 }
 
-// TODO: hard_delete
+export async function hard_delete(
+    context: UFDLServerContext,
+    pk: number
+): Promise<DatasetInstance> {
+    return mixin_actions.hard_delete(
+        context,
+        DATASETS_URL,
+        pk
+    );
+}
 
-// TODO: reinstate
+export async function reinstate(
+    context: UFDLServerContext,
+    pk: number
+): Promise<DatasetInstance> {
+    return mixin_actions.reinstate(
+        context,
+        DATASETS_URL,
+        pk
+    );
+}
 
-// TODO: clear
+export async function clear(
+    context: UFDLServerContext,
+    pk: number
+): Promise<DatasetInstance> {
+    return mixin_actions.clear(
+        context,
+        DATASETS_URL,
+        pk
+    );
+}
