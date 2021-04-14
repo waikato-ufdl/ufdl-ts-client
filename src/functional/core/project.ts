@@ -3,6 +3,7 @@ import {PROJECTS_URL} from "../../constants";
 import UFDLServerContext from "../../UFDLServerContext";
 import {FilterSpec} from "../../json/generated/FilterSpec";
 import {ProjectInstance} from "../../types/core/project";
+import * as mixin_actions from "./mixin_actions";
 
 export async function list(
     context: UFDLServerContext,
@@ -51,6 +52,24 @@ export async function destroy(
     await base_actions.destroy(context, PROJECTS_URL, pk);
 }
 
-// TODO: hard_delete
+export async function hard_delete(
+    context: UFDLServerContext,
+    pk: number
+): Promise<ProjectInstance> {
+    return mixin_actions.hard_delete(
+        context,
+        PROJECTS_URL,
+        pk
+    );
+}
 
-// TODO: reinstate
+export async function reinstate(
+    context: UFDLServerContext,
+    pk: number
+): Promise<ProjectInstance> {
+    return mixin_actions.reinstate(
+        context,
+        PROJECTS_URL,
+        pk
+    );
+}
