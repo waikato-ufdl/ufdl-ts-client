@@ -145,11 +145,44 @@ export async function get_file_by_handle(
     return await core_mixin_actions.get_file_by_handle(context, OBJECT_DETECTION_DATASETS_URL, pk, handle);
 }
 
-// TODO: set_metadata
+export async function set_metadata(
+    context: UFDLServerContext,
+    pk: number,
+    filename: string,
+    metadata: string
+): Promise<string> {
+    return core_mixin_actions.set_metadata(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk,
+        filename,
+        metadata
+    );
+}
 
-// TODO: get_metadata
+export async function get_metadata(
+    context: UFDLServerContext,
+    pk: number,
+    filename: string
+): Promise<string> {
+    return core_mixin_actions.get_metadata(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk,
+        filename
+    );
+}
 
-// TODO: get_all_metadata
+export async function get_all_metadata(
+    context: UFDLServerContext,
+    pk: number
+): Promise<{readonly [filename: string]: string | undefined}> {
+    return core_mixin_actions.get_all_metadata(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk
+    );
+}
 
 export async function copy(
     context: UFDLServerContext,
@@ -159,13 +192,55 @@ export async function copy(
     return await core_mixin_actions.copy(context, OBJECT_DETECTION_DATASETS_URL, pk, {new_name: new_name});
 }
 
-// TODO: merge
+export async function merge(
+    context: UFDLServerContext,
+    pk: number,
+    sourcePK: number,
+    delete_: boolean,
+    hard?: boolean
+): Promise<DatasetInstance> {
+    return core_mixin_actions.merge(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk,
+        sourcePK,
+        delete_,
+        hard
+    );
+}
 
-// TODO: hard_delete
+export async function hard_delete(
+    context: UFDLServerContext,
+    pk: number
+): Promise<DatasetInstance> {
+    return core_mixin_actions.hard_delete(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk
+    );
+}
 
-// TODO: reinstate
+export async function reinstate(
+    context: UFDLServerContext,
+    pk: number
+): Promise<DatasetInstance> {
+    return core_mixin_actions.reinstate(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk
+    );
+}
 
-// TODO: clear
+export async function clear(
+    context: UFDLServerContext,
+    pk: number
+): Promise<DatasetInstance> {
+    return core_mixin_actions.clear(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk
+    );
+}
 
 export async function get_annotations(
     context: UFDLServerContext,
@@ -199,4 +274,9 @@ export async function delete_annotations_for_image(
     await mixin_actions.delete_annotations_for_image(context, OBJECT_DETECTION_DATASETS_URL, pk, image);
 }
 
-// TODO: get_labels
+export async function get_labels(
+    context: UFDLServerContext,
+    pk: number
+): Promise<string[]> {
+    return mixin_actions.get_labels(context, OBJECT_DETECTION_DATASETS_URL, pk);
+}
