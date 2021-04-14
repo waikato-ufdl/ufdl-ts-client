@@ -5,8 +5,18 @@ import * as base_actions from "../../base_actions";
 import {DataStream} from "../../../types/base";
 import {JobInstance} from "../../../types/core/jobs/job";
 import {JobOutputInstance} from "../../../types/core/jobs/job_output";
+import {FilterSpec} from "../../../json/generated/FilterSpec";
 
-// TODO: list
+export async function list(
+    context: UFDLServerContext,
+    filter?: FilterSpec
+): Promise<JobInstance[]> {
+    return base_actions.list(
+        context,
+        JOBS_URL,
+        filter
+    );
+}
 
 export async function retrieve(
     context: UFDLServerContext,
@@ -15,11 +25,44 @@ export async function retrieve(
     return base_actions.retrieve(context, JOBS_URL, pk);
 }
 
-// TODO: destroy
+export async function destroy(
+    context: UFDLServerContext,
+    pk: number
+): Promise<void> {
+    await base_actions.destroy(context, JOBS_URL, pk);
+}
 
-// TODO: add_output
+export async function add_output(
+    context: UFDLServerContext,
+    pk: number,
+    name: string,
+    type: string,
+    data: Blob | BufferSource | DataStream
+): Promise<JobOutputInstance> {
+    return mixin_actions.add_output(
+        context,
+        JOBS_URL,
+        pk,
+        name,
+        type,
+        data
+    );
+}
 
-// TODO: delete_output
+export async function delete_output(
+    context: UFDLServerContext,
+    pk: number,
+    name: string,
+    type: string
+): Promise<JobOutputInstance> {
+    return mixin_actions.delete_output(
+        context,
+        JOBS_URL,
+        pk,
+        name,
+        type
+    );
+}
 
 export async function get_output(
     context: UFDLServerContext,
@@ -39,21 +82,99 @@ export async function get_output_info(
     return mixin_actions.get_output_info(context, JOBS_URL, pk, name, type);
 }
 
-// TODO: hard_delete
+export async function hard_delete(
+    context: UFDLServerContext,
+    pk: number
+): Promise<JobInstance> {
+    return mixin_actions.hard_delete(
+        context,
+        JOBS_URL,
+        pk
+    );
+}
 
-// TODO: reinstate
+export async function reinstate(
+    context: UFDLServerContext,
+    pk: number
+): Promise<JobInstance> {
+    return mixin_actions.reinstate(
+        context,
+        JOBS_URL,
+        pk
+    );
+}
 
-// TODO: acquire_job
+export async function acquire_job(
+    context: UFDLServerContext,
+    pk: number
+): Promise<JobInstance> {
+    return mixin_actions.acquire_job(
+        context,
+        JOBS_URL,
+        pk
+    );
+}
 
-// TODO: release_job
+export async function release_job(
+    context: UFDLServerContext,
+    pk: number
+): Promise<JobInstance> {
+    return mixin_actions.release_job(
+        context,
+        JOBS_URL,
+        pk
+    );
+}
 
-// TODO: start_job
+export async function start_job(
+    context: UFDLServerContext,
+    pk: number,
+    send_notification: string
+): Promise<JobInstance> {
+    return mixin_actions.start_job(
+        context,
+        JOBS_URL,
+        pk,
+        send_notification
+    );
+}
 
-// TODO: finish_job
+export async function finish_job(
+    context: UFDLServerContext,
+    pk: number,
+    send_notification: string,
+    error?: string
+): Promise<JobInstance> {
+    return mixin_actions.finish_job(
+        context,
+        JOBS_URL,
+        pk,
+        send_notification,
+        error
+    );
+}
 
-// TODO: reset_job
+export async function reset_job(
+    context: UFDLServerContext,
+    pk: number
+): Promise<JobInstance> {
+    return mixin_actions.reset_job(
+        context,
+        JOBS_URL,
+        pk
+    );
+}
 
-// TODO: abort_job
+export async function abort_job(
+    context: UFDLServerContext,
+    pk: number
+): Promise<JobInstance> {
+    return mixin_actions.abort_job(
+        context,
+        JOBS_URL,
+        pk
+    );
+}
 
 export async function cancel_job(
     context: UFDLServerContext,
