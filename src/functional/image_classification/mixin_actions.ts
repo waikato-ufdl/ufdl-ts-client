@@ -1,5 +1,5 @@
 import UFDLServerContext from "../../UFDLServerContext";
-import {RawJSONObject} from "../../types";
+import {RawJSONObject} from "../../types/raw";
 
 // region CategoriesViewSet
 

@@ -1,7 +1,7 @@
 import UFDLServerContext from "../../../UFDLServerContext";
 import * as mixin_actions from "../mixin_actions";
 import {JOBS_URL} from "../../../constants";
-import {RawJSONObject} from "../../../types";
+import {RawJSONObject} from "../../../types/raw";
 import * as base_actions from "../../base_actions";
 
 // TODO: list

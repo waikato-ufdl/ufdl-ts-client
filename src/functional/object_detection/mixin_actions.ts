@@ -1,6 +1,6 @@
 import UFDLServerContext from "../../UFDLServerContext";
 import {Annotation} from "../../json/generated/Annotation";
-import {RawJSONObject} from "../../types";
+import {RawJSONObject} from "../../types/raw";
 
 // region AnnotationsViewSet
 

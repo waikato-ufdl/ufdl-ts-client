@@ -1,6 +1,6 @@
 import UFDLServerContext from "../../UFDLServerContext";
 import {get_response_stream, get_response_json_value} from "../../util";
-import {RawJSONObject} from "../../types";
+import {RawJSONObject} from "../../types/raw";
 import {CreateJobSpec} from "../../json/generated/CreateJobSpec";
 import {JobTemplateSpec} from "../../json/generated/JobTemplateSpec";
 

@@ -1,6 +1,6 @@
 import UFDLServerContext from "../../UFDLServerContext";
 import {FilterSpec} from "../../json/generated/FilterSpec";
-import {RawJSONObject} from "../../types";
+import {RawJSONObject} from "../../types/raw";
 import * as base_actions from "../base_actions";
 import {IMAGE_CLASSIFICATION_DATASETS_URL} from "../../constants";
 import * as core_mixin_actions from "../core/mixin_actions";

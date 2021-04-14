@@ -3,7 +3,7 @@ import {TEAMS_URL} from "../../constants";
 import UFDLServerContext from "../../UFDLServerContext";
 import {FilterSpec} from "../../json/generated/FilterSpec";
 import * as mixin_actions from "./mixin_actions";
-import {RawJSONObject} from "../../types";
+import {RawJSONObject} from "../../types/raw";
 
 export async function list(
     context: UFDLServerContext,

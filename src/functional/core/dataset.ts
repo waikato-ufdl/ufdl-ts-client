@@ -3,7 +3,7 @@ import {FilterSpec} from "../../json/generated/FilterSpec";
 import * as base_actions from "../base_actions";
 import {DATASETS_URL} from "../../constants";
 import * as mixin_actions from "./mixin_actions";
-import {RawJSONObject} from "../../types";
+import {RawJSONObject} from "../../types/raw";
 
 export async function list(
     context: UFDLServerContext,

@@ -1,6 +1,6 @@
 import UFDLServerContext from "../../UFDLServerContext";
 import {FilterSpec} from "../../json/generated/FilterSpec";
-import {RawJSONObject} from "../../types";
+import {RawJSONObject} from "../../types/raw";
 import * as base_actions from "../base_actions";
 import {DOMAINS_URL} from "../../constants";
 

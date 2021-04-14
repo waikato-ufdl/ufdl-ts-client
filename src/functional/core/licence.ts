@@ -2,7 +2,7 @@ import * as base_actions from "../base_actions";
 import {LICENCES_URL} from "../../constants";
 import UFDLServerContext from "../../UFDLServerContext";
 import {FilterSpec} from "../../json/generated/FilterSpec";
-import {RawJSONObject} from "../../types";
+import {RawJSONObject} from "../../types/raw";
 
 export async function list(
     context: UFDLServerContext,

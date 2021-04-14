@@ -5,7 +5,7 @@ import {OBJECT_DETECTION_DATASETS_URL} from "../../constants";
 import * as core_mixin_actions from "../core/mixin_actions";
 import * as mixin_actions from "./mixin_actions";
 import {Annotation} from "../../json/generated/Annotation";
-import {RawJSONObject} from "../../types";
+import {RawJSONObject} from "../../types/raw";
 
 export async function list(
     context: UFDLServerContext,
