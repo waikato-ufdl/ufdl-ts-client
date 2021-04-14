@@ -3,6 +3,7 @@ import {LICENCES_URL} from "../../constants";
 import UFDLServerContext from "../../UFDLServerContext";
 import {FilterSpec} from "../../json/generated/FilterSpec";
 import {LicenceInstance} from "../../types/core/licence";
+import * as mixin_actions from "./mixin_actions";
 
 export async function list(
     context: UFDLServerContext,
@@ -51,6 +52,32 @@ export async function destroy(
     await base_actions.destroy(context, LICENCES_URL, pk);
 }
 
-// TODO: add_subdescriptors
+export async function add_subdescriptors(
+    context: UFDLServerContext,
+    pk: number,
+    type: string,
+    names: (number | string)[]
+): Promise<LicenceInstance> {
+    return mixin_actions.add_subdescriptors(
+        context,
+        LICENCES_URL,
+        pk,
+        type,
+        names
+    );
+}
 
-// TODO: remove_subdescriptors
+export async function remove_subdescriptors(
+    context: UFDLServerContext,
+    pk: number,
+    type: string,
+    names: (number | string)[]
+): Promise<LicenceInstance> {
+    return mixin_actions.remove_subdescriptors(
+        context,
+        LICENCES_URL,
+        pk,
+        type,
+        names
+    );
+}
