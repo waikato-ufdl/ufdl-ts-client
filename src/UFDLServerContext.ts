@@ -4,6 +4,7 @@ import {Method} from "./Method";
 import {Nullable, Optional, toHexString} from "./util";
 import {authorization_headers, combine_headers, data_payload, json_payload, node_id_headers, Payload} from "./payload";
 import UFDLCrypto from "./UFDLCrypto";
+import {DataStream} from "./types/base";
 
 const EMPTY_PAYLOAD: Payload = {headers: new Headers()};
 
@@ -268,7 +269,7 @@ export default class UFDLServerContext {
     public async upload(
         url: string,
         filename: string,
-        data: Blob | BufferSource | ReadableStream<Uint8Array>,
+        data: Blob | BufferSource | DataStream,
         auth: boolean = true
     ): Promise<Response> {
         if (filename === "") filename = 'UNKNOWN';
