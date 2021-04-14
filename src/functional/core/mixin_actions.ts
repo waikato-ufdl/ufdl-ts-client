@@ -316,7 +316,7 @@ export async function get_all_metadata(
     context: UFDLServerContext,
     url: string,
     pk: number
-): Promise<string> {
+): Promise<{readonly [filename: string]: string | undefined}> {
     let response = await context.get(
         `${url}/${pk}/metadata`
     );
