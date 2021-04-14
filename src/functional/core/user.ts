@@ -2,12 +2,12 @@ import * as base_actions from "../base_actions";
 import UFDLServerContext from "../../UFDLServerContext";
 import {FilterSpec} from "../../json/generated/FilterSpec";
 import {USERS_URL} from "../../constants";
-import {RawJSONObject} from "../../types/raw";
+import {UserInstance} from "../../types/core/user";
 
 export async function list(
     context: UFDLServerContext,
     filter?: FilterSpec
-): Promise<RawJSONObject[]> {
+): Promise<UserInstance[]> {
     return await base_actions.list(context, USERS_URL, filter);
 }
 
@@ -18,7 +18,7 @@ export async function create(
     email: string,
     first_name: string = "",
     last_name: string = ""
-): Promise<RawJSONObject> {
+): Promise<UserInstance> {
     return await base_actions.create(
         context,
         USERS_URL,
@@ -35,7 +35,7 @@ export async function create(
 export async function retrieve(
     context: UFDLServerContext,
     pk: number
-): Promise<RawJSONObject> {
+): Promise<UserInstance> {
     return await base_actions.retrieve(context, USERS_URL, pk);
 }
 
@@ -48,7 +48,7 @@ export async function update(
     last_name: string,
     email: string,
     is_active: boolean
-): Promise<RawJSONObject> {
+): Promise<UserInstance> {
     return await base_actions.update(
         context,
         USERS_URL,
@@ -73,7 +73,7 @@ export async function partial_update(
     last_name?: string,
     email?: string,
     is_active?: boolean
-): Promise<RawJSONObject> {
+): Promise<UserInstance> {
     return await base_actions.partial_update(
         context,
         USERS_URL,

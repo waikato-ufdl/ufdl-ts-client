@@ -1,5 +1,5 @@
 export type RawJSONObject = {
-    [key: string]: RawJSONElement
+    [key: string]: RawJSONElement | undefined
 }
 
 export type RawJSONArray = RawJSONElement[]

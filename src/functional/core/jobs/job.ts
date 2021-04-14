@@ -1,15 +1,17 @@
 import UFDLServerContext from "../../../UFDLServerContext";
 import * as mixin_actions from "../mixin_actions";
 import {JOBS_URL} from "../../../constants";
-import {RawJSONObject} from "../../../types/raw";
 import * as base_actions from "../../base_actions";
+import {DataStream} from "../../../types/base";
+import {JobInstance} from "../../../types/core/jobs/job";
+import {JobOutputInstance} from "../../../types/core/jobs/job_output";
 
 // TODO: list
 
 export async function retrieve(
     context: UFDLServerContext,
     pk: number
-): Promise<RawJSONObject> {
+): Promise<JobInstance> {
     return base_actions.retrieve(context, JOBS_URL, pk);
 }
 
@@ -24,7 +26,7 @@ export async function get_output(
     pk: number,
     name: string,
     type: string
-): Promise<ReadableStream<Uint8Array>> {
+): Promise<DataStream> {
     return mixin_actions.get_output(context, JOBS_URL, pk, name, type);
 }
 
@@ -33,7 +35,7 @@ export async function get_output_info(
     pk: number,
     name: string,
     type: string
-): Promise<RawJSONObject> {
+): Promise<JobOutputInstance> {
     return mixin_actions.get_output_info(context, JOBS_URL, pk, name, type);
 }
 
@@ -56,6 +58,6 @@ export async function get_output_info(
 export async function cancel_job(
     context: UFDLServerContext,
     pk: number
-): Promise<RawJSONObject> {
+): Promise<JobInstance> {
     return mixin_actions.cancel_job(context, JOBS_URL, pk);
 }

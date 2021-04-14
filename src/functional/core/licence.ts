@@ -2,12 +2,12 @@ import * as base_actions from "../base_actions";
 import {LICENCES_URL} from "../../constants";
 import UFDLServerContext from "../../UFDLServerContext";
 import {FilterSpec} from "../../json/generated/FilterSpec";
-import {RawJSONObject} from "../../types/raw";
+import {LicenceInstance} from "../../types/core/licence";
 
 export async function list(
     context: UFDLServerContext,
     filter?: FilterSpec
-): Promise<RawJSONObject[]> {
+): Promise<LicenceInstance[]> {
     return base_actions.list(context, LICENCES_URL, filter);
 }
 
@@ -15,14 +15,14 @@ export async function create(
     context: UFDLServerContext,
     name: string,
     url: string
-): Promise<RawJSONObject> {
+): Promise<LicenceInstance> {
     return base_actions.create(context, LICENCES_URL, {name: name, url: url});
 }
 
 export async function retrieve(
     context: UFDLServerContext,
     pk: number
-): Promise<RawJSONObject> {
+): Promise<LicenceInstance> {
     return base_actions.retrieve(context, LICENCES_URL, pk);
 }
 
@@ -31,7 +31,7 @@ export async function update(
     pk: number,
     name: string,
     url: string
-): Promise<RawJSONObject> {
+): Promise<LicenceInstance> {
     return base_actions.update(context, LICENCES_URL, pk, {name: name, url: url});
 }
 
@@ -40,7 +40,7 @@ export async function partial_update(
     pk: number,
     name?: string,
     url?: string
-): Promise<RawJSONObject> {
+): Promise<LicenceInstance> {
     return base_actions.update(context, LICENCES_URL, pk, {name: name, url: url});
 }
 

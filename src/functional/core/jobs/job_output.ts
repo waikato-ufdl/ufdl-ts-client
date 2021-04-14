@@ -1,13 +1,14 @@
 import UFDLServerContext from "../../../UFDLServerContext";
-import {RawJSONObject} from "../../../types/raw";
 import * as base_actions from "../../base_actions";
 import {JOB_OUTPUTS_URL} from "../../../constants";
 import * as mixin_actions from "../mixin_actions";
+import {DataStream} from "../../../types/base";
+import {JobOutputInstance} from "../../../types/core/jobs/job_output";
 
 export async function retrieve(
     context: UFDLServerContext,
     pk: number
-): Promise<RawJSONObject> {
+): Promise<JobOutputInstance> {
     return base_actions.retrieve(
         context,
         JOB_OUTPUTS_URL,
@@ -18,7 +19,7 @@ export async function retrieve(
 export async function download(
     context: UFDLServerContext,
     pk: number
-): Promise<ReadableStream<Uint8Array>> {
+): Promise<DataStream> {
     return mixin_actions.download(
         context,
         JOB_OUTPUTS_URL,

@@ -1,13 +1,13 @@
 import UFDLServerContext from "../UFDLServerContext";
 import {FilterSpec} from "../json/generated/FilterSpec";
 import {Nullable} from "../util";
-import {RawJSONObject} from "../types/raw";
+import {RawModelInstance} from "../types/base";
 
-export async function list(
+export async function list<M extends RawModelInstance>(
     context: UFDLServerContext,
     url: string,
     filter?: FilterSpec
-): Promise<RawJSONObject[]> {
+): Promise<M[]> {
     let filterSpec: Nullable<FilterSpec>;
     if (filter === undefined)
         filterSpec = null;
@@ -19,43 +19,43 @@ export async function list(
     return response.json();
 }
 
-export async function create(
+export async function create<M extends RawModelInstance>(
     context: UFDLServerContext,
     url: string,
     params: {}
-): Promise<RawJSONObject> {
+): Promise<M> {
     let response = await context.post(`${url}/create`, params);
 
     return response.json();
 }
 
-export async function retrieve(
+export async function retrieve<M extends RawModelInstance>(
     context: UFDLServerContext,
     url: string,
     pk: number
-): Promise<RawJSONObject> {
+): Promise<M> {
     let response = await context.get(`${url}/${pk}`);
 
     return response.json();
 }
 
-export async function update(
+export async function update<M extends RawModelInstance>(
     context: UFDLServerContext,
     url: string,
     pk: number,
     params: {}
-): Promise<RawJSONObject> {
+): Promise<M> {
     let response = await context.put(`${url}/${pk}`, params);
 
     return response.json();
 }
 
-export async function partial_update(
+export async function partial_update<M extends RawModelInstance>(
     context: UFDLServerContext,
     url: string,
     pk: number,
     params: {}
-): Promise<RawJSONObject> {
+): Promise<M> {
     let response = await context.patch(`${url}/${pk}`, params);
 
     return response.json();

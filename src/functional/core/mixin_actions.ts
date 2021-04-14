@@ -1,8 +1,14 @@
 import UFDLServerContext from "../../UFDLServerContext";
 import {get_response_stream, get_response_json_value} from "../../util";
-import {RawJSONObject} from "../../types/raw";
 import {CreateJobSpec} from "../../json/generated/CreateJobSpec";
 import {JobTemplateSpec} from "../../json/generated/JobTemplateSpec";
+import {DataStream, RawModelInstance} from "../../types/base";
+import {JobOutputInstance} from "../../types/core/jobs/job_output";
+import {JobInstance} from "../../types/core/jobs/job";
+import {NamedFileInstance} from "../../types/core/named_file";
+import {JobTemplateInstance} from "../../types/core/jobs/job_template";
+import {MembershipInstance} from "../../types/core/membership";
+import {SoftDeleteModelInstance} from "../../types/mixin";
 
 // region AcquireJobViewSet
 
@@ -10,7 +16,7 @@ export async function acquire_job(
     context: UFDLServerContext,
     url: string,
     pk: number
-): Promise<RawJSONObject> {
+): Promise<JobInstance> {
     let response = await context.get(`${url}/${pk}/acquire`);
 
     return response.json();
@@ -20,7 +26,7 @@ export async function release_job(
     context: UFDLServerContext,
     url: string,
     pk: number
-): Promise<RawJSONObject> {
+): Promise<JobInstance> {
     let response = await context.get(`${url}/${pk}/release`);
 
     return response.json();
@@ -31,7 +37,7 @@ export async function start_job(
     url: string,
     pk: number,
     send_notification: string
-): Promise<RawJSONObject> {
+): Promise<JobInstance> {
     let response = await context.post(`${url}/${pk}/start`,
                                       {
                                           send_notification: send_notification
@@ -46,7 +52,7 @@ export async function finish_job(
     pk: number,
     send_notification: string,
     error?: string
-): Promise<RawJSONObject> {
+): Promise<JobInstance> {
     let response = await context.post(`${url}/${pk}/finish`,
                                       {
                                           success: (error === undefined),
@@ -61,7 +67,7 @@ export async function reset_job(
     context: UFDLServerContext,
     url: string,
     pk: number
-): Promise<RawJSONObject> {
+): Promise<JobInstance> {
     let response = await context.delete_(`${url}/${pk}/reset`);
 
     return response.json();
@@ -71,7 +77,7 @@ export async function abort_job(
     context: UFDLServerContext,
     url: string,
     pk: number
-): Promise<RawJSONObject> {
+): Promise<JobInstance> {
     let response = await context.delete_(`${url}/${pk}/abort`);
 
     return response.json();
@@ -81,7 +87,7 @@ export async function cancel_job(
     context: UFDLServerContext,
     url: string,
     pk: number
-): Promise<RawJSONObject> {
+): Promise<JobInstance> {
     let response = await context.delete_(`${url}/${pk}/cancel`);
 
     return response.json();
@@ -101,7 +107,7 @@ export async function get_output(
     pk: number,
     name: string,
     type: string
-): Promise<ReadableStream<Uint8Array>> {
+): Promise<DataStream> {
     const response = await context.download(`${url}/${pk}/outputs/${name}/${type}`);
 
     return get_response_stream(response);
@@ -113,7 +119,7 @@ export async function get_output_info(
     pk: number,
     name: string,
     type: string
-): Promise<RawJSONObject> {
+): Promise<JobOutputInstance> {
     const response = await context.get(`${url}/${pk}/outputs/${name}/${type}/info`);
 
     return response.json();
@@ -129,12 +135,12 @@ export async function get_output_info(
 
 // region CopyableViewSet
 
-export async function copy(
+export async function copy<M extends RawModelInstance>(
     context: UFDLServerContext,
     url: string,
     pk: number,
     params: {}
-): Promise<RawJSONObject> {
+): Promise<M> {
     let response = await context.post(`${url}/${pk}/copy`, params);
 
     return response.json();
@@ -149,7 +155,7 @@ export async function create_job(
     url: string,
     pk: number,
     specification: CreateJobSpec
-): Promise<RawJSONObject> {
+): Promise<JobInstance> {
     const response = await context.post(
         `${url}/${pk}/create-job`,
         specification
@@ -168,7 +174,7 @@ export async function download(
     pk: number,
     filetype?: string,
     params: {} = {}
-): Promise<ReadableStream<Uint8Array>> {
+): Promise<DataStream> {
     let response = await context.download(
         `${url}/${pk}/download`,
         {
@@ -189,8 +195,8 @@ export async function add_file(
     url: string,
     pk: number,
     filename: string,
-    data: Blob | BufferSource | ReadableStream<Uint8Array>
-): Promise<RawJSONObject> {
+    data: Blob | BufferSource | DataStream
+): Promise<NamedFileInstance> {
     let response = await context.upload(
         `${url}/${pk}/files/${filename}`,
         filename,
@@ -205,7 +211,7 @@ export async function get_file(
     url: string,
     pk: number,
     filename: string
-): Promise<ReadableStream<Uint8Array>> {
+): Promise<DataStream> {
     let response = await context.download(
         `${url}/${pk}/files/${filename}`
     );
@@ -218,7 +224,7 @@ export async function delete_file(
     url: string,
     pk: number,
     filename: string
-): Promise<RawJSONObject> {
+): Promise<NamedFileInstance> {
     let response = await context.delete_(
         `${url}/${pk}/files/${filename}`
     );
@@ -231,7 +237,7 @@ export async function get_file_by_handle(
     url: string,
     pk: number,
     handle: string
-): Promise<ReadableStream<Uint8Array>> {
+): Promise<DataStream> {
     let response = await context.download(
         `${url}/${pk}/file-handles/${handle}`
     );
@@ -295,7 +301,7 @@ export async function import_template(
     context: UFDLServerContext,
     url: string,
     template: JobTemplateSpec
-): Promise<RawJSONObject> {
+): Promise<JobTemplateInstance> {
     const response = await context.post(`${url}/import`, template);
 
     return response.json();
@@ -305,7 +311,7 @@ export async function export_template(
     context: UFDLServerContext,
     url: string,
     pk: number
-): Promise<RawJSONObject> {
+): Promise<JobTemplateSpec> {
     const response = await context.get(`${url}/${pk}/export`);
 
     return response.json();
@@ -327,7 +333,7 @@ export async function add_membership(
     pk: number,
     username: string,
     permissions: string = "R"
-): Promise<RawJSONObject> {
+): Promise<MembershipInstance> {
     let response = await context.patch(
         `${url}/${pk}/memberships`,
         {
@@ -345,7 +351,7 @@ export async function remove_membership(
     url: string,
     pk: number,
     username: string
-): Promise<RawJSONObject> {
+): Promise<MembershipInstance> {
     let response = await context.patch(
         `${url}/${pk}/memberships`,
         {
@@ -363,7 +369,7 @@ export async function update_membership(
     pk: number,
     username: string,
     permissions: string = "R"
-): Promise<RawJSONObject> {
+): Promise<MembershipInstance> {
     let response = await context.patch(
         `${url}/${pk}/memberships`,
         {
@@ -381,7 +387,7 @@ export async function get_permissions_for_user(
     url: string,
     pk: number,
     username: string
-): Promise<string> {
+): Promise<Permissions> {
     let response = await context.get(
         `${url}/${pk}/permissions/${username}`
     );
@@ -393,14 +399,14 @@ export async function get_permissions_for_user(
 
 // region MergeViewSet
 
-export async function merge(
+export async function merge<M extends RawModelInstance>(
     context: UFDLServerContext,
     url: string,
     pk: number,
     sourcePK: number,
     delete_: boolean,
     hard?: boolean
-): Promise<RawJSONObject> {
+): Promise<M> {
     const response = await context.post(`${url}/${pk}/merge/${sourcePK}`, {delete: delete_, hard: hard});
 
     return response.json();
@@ -424,21 +430,21 @@ export async function ping(context: UFDLServerContext, url: string): Promise<voi
 
 // region SoftDeleteViewSet
 
-export async function hard_delete(
+export async function hard_delete<M extends SoftDeleteModelInstance>(
     context: UFDLServerContext,
     url: string,
     pk: number
-): Promise<RawJSONObject> {
+): Promise<M> {
     const response = await context.delete_(`${url}/${pk}/hard`);
 
     return response.json();
 }
 
-export async function reinstate(
+export async function reinstate<M extends SoftDeleteModelInstance>(
     context: UFDLServerContext,
     url: string,
     pk: number
-): Promise<RawJSONObject> {
+): Promise<M> {
     const response = await context.delete_(`${url}/${pk}/reinstate`);
 
     return response.json();

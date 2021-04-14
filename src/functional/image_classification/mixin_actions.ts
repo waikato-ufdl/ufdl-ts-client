@@ -1,5 +1,5 @@
 import UFDLServerContext from "../../UFDLServerContext";
-import {RawJSONObject} from "../../types/raw";
+import {Convert} from "../../json/generated/CategoriesFile";
 
 // region CategoriesViewSet
 
@@ -7,7 +7,7 @@ export async function get_categories(
     context: UFDLServerContext,
     url: string,
     pk: number
-): Promise<RawJSONObject> {
+): Promise<ReturnType<typeof Convert.toCategoriesFile>> {
     const response = await context.get(`${url}/${pk}/categories`);
 
     return response.json()
@@ -19,7 +19,7 @@ export async function add_categories(
     pk: number,
     images: string[],
     categories: string[]
-): Promise<RawJSONObject> {
+): Promise<ReturnType<typeof Convert.toCategoriesFile>> {
     const response = await context.patch(
         `${url}/${pk}/categories`,
         {
@@ -38,7 +38,7 @@ export async function remove_categories(
     pk: number,
     images: string[],
     categories: string[]
-): Promise<RawJSONObject> {
+): Promise<ReturnType<typeof Convert.toCategoriesFile>> {
     const response = await context.patch(
         `${url}/${pk}/categories`,
         {
