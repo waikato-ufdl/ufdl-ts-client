@@ -44,6 +44,14 @@ export async function delete_annotations_for_image(
     await context.delete_(`${url}/${pk}/annotations/${image}`);
 }
 
-// TODO: get_labels
+export async function get_labels(
+    context: UFDLServerContext,
+    url: string,
+    pk: number
+): Promise<string[]> {
+    const response = await context.get(`${url}/${pk}/labels`);
+
+    return response.json();
+}
 
 // endregion
