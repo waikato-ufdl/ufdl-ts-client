@@ -9,6 +9,10 @@ import {NamedFileInstance} from "../../types/core/named_file";
 import {JobTemplateInstance} from "../../types/core/jobs/job_template";
 import {MembershipInstance} from "../../types/core/membership";
 import {SoftDeleteModelInstance} from "../../types/mixin";
+import {RawJSONObject} from "../../types/raw";
+import {DatasetInstance} from "../../types/core/dataset";
+import {HardwareInstance} from "../../types/core/nodes/HardwareInstance";
+import {LicenceInstance} from "../../types/core/licence";
 
 // region AcquireJobViewSet
 
@@ -97,9 +101,34 @@ export async function cancel_job(
 
 // region AddJobOutputViewSet
 
-// TODO: add_output
+export async function add_output(
+    context: UFDLServerContext,
+    url: string,
+    pk: number,
+    name: string,
+    type: string,
+    data: Blob | BufferSource | DataStream
+): Promise<JobOutputInstance> {
+    const response = await context.upload(
+        `${url}/${pk}/outputs/${name}/${type}`,
+        name,
+        data
+    );
 
-// TODO: delete_output
+    return response.json();
+}
+
+export async function delete_output(
+    context: UFDLServerContext,
+    url: string,
+    pk: number,
+    name: string,
+    type: string
+): Promise<JobOutputInstance> {
+    const response = await context.delete_(`${url}/${pk}/outputs/${name}/${type}`);
+
+    return response.json();
+}
 
 export async function get_output(
     context: UFDLServerContext,
@@ -129,7 +158,15 @@ export async function get_output_info(
 
 // region ClearDatasetViewSet
 
-// TODO
+export async function clear<D extends DatasetInstance>(
+    context: UFDLServerContext,
+    url: string,
+    pk: number
+): Promise<D> {
+    const response = await context.delete_(`${url}/${pk}/clear`);
+
+    return response.json();
+}
 
 // endregion
 
@@ -139,7 +176,7 @@ export async function copy<M extends RawModelInstance>(
     context: UFDLServerContext,
     url: string,
     pk: number,
-    params: {}
+    params: RawJSONObject
 ): Promise<M> {
     let response = await context.post(`${url}/${pk}/copy`, params);
 
@@ -291,7 +328,17 @@ export async function get_all_metadata(
 
 // region GetHardwareGenerationViewSet
 
-// TODO
+export async function get_hardware_generation(
+    context: UFDLServerContext,
+    url: string,
+    compute: number
+): Promise<HardwareInstance> {
+    let response = await context.get(
+        `${url}/get-hardware-generation/${compute}`
+    );
+
+    return response.json()
+}
 
 // endregion
 
@@ -321,7 +368,43 @@ export async function export_template(
 
 // region LicenceSubdescriptorViewSet
 
-// TODO
+export async function add_subdescriptors(
+    context: UFDLServerContext,
+    url: string,
+    pk: number,
+    type: string,
+    names: (number | string)[]
+): Promise<LicenceInstance> {
+    const response = await context.patch(
+        `${url}/${pk}/subdescriptors`,
+        {
+            method: "add",
+            type: type,
+            names: names
+        }
+    );
+
+    return response.json();
+}
+
+export async function remove_subdescriptors(
+    context: UFDLServerContext,
+    url: string,
+    pk: number,
+    type: string,
+    names: (number | string)[]
+): Promise<LicenceInstance> {
+    const response = await context.patch(
+        `${url}/${pk}/subdescriptors`,
+        {
+            method: "remove",
+            type: type,
+            names: names
+        }
+    );
+
+    return response.json();
+}
 
 // endregion
 
@@ -424,7 +507,30 @@ export async function ping(context: UFDLServerContext, url: string): Promise<voi
 
 // region SetFileViewSet
 
-// TODO
+export async function set_file<M extends RawModelInstance>(
+    context: UFDLServerContext,
+    url: string,
+    pk: number,
+    data: Blob | BufferSource | DataStream
+): Promise<M> {
+    const response = await context.upload(
+        `${url}/${pk}/data`,
+        "data",
+        data
+    );
+
+    return response.json();
+}
+
+export async function delete_file_sf<M extends RawModelInstance>(
+    context: UFDLServerContext,
+    url: string,
+    pk: number
+): Promise<M> {
+    const response = await context.delete_(`${url}/${pk}/data`);
+
+    return response.json();
+}
 
 // endregion
 
