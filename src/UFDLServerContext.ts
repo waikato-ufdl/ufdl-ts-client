@@ -18,6 +18,19 @@ export default class UFDLServerContext {
     private _node_id?: number;
     private readonly _storage: Storage;
 
+    public static for_current_host(
+        username: string,
+        password: string,
+        storage: Storage = localStorage
+    ): UFDLServerContext {
+        return new UFDLServerContext(
+            window.location.host,
+            username,
+            password,
+            storage
+        );
+    }
+
     constructor(
         host: string,
         username: string,
