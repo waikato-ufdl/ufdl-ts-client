@@ -3,7 +3,7 @@ import * as mixin_actions from "../mixin_actions";
 import {JOBS_URL} from "../../../constants";
 import * as base_actions from "../../base_actions";
 import {DataStream} from "../../../types/base";
-import {JobInstance} from "../../../types/core/jobs/job";
+import {JobInstance, JobTransitionHandlers, JobTransitionMessage} from "../../../types/core/jobs/job";
 import {JobOutputInstance} from "../../../types/core/jobs/job_output";
 import {FilterSpec} from "../../../json/generated/FilterSpec";
 
@@ -181,4 +181,27 @@ export async function cancel_job(
     pk: number
 ): Promise<JobInstance> {
     return mixin_actions.cancel_job(context, JOBS_URL, pk);
+}
+
+export function connect_to_job(
+    context: UFDLServerContext,
+    pk: number,
+    handlers?: JobTransitionHandlers,
+    on_close?: (self: boolean) => void,
+    on_error?: (event: Event) => void
+): void {
+    context.open_websocket<JobTransitionMessage>(
+        `${JOBS_URL}/${pk}`,
+        (message) => {
+            const transition = message.transition;
+
+            const handler = handlers === undefined
+                ? undefined
+                : handlers[transition];
+
+            return (handler !== undefined && handler(message as any) === true) || transition === "finish" || transition === "cancel";
+        },
+        on_close,
+        on_error
+    );
 }

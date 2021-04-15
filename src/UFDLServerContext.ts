@@ -5,6 +5,7 @@ import {Nullable, Optional, toHexString} from "./util";
 import {authorization_headers, combine_headers, data_payload, json_payload, node_id_headers, Payload} from "./payload";
 import UFDLCrypto from "./UFDLCrypto";
 import {DataStream} from "./types/base";
+import {RawJSONElement} from "./types/raw";
 
 const EMPTY_PAYLOAD: Payload = {headers: new Headers()};
 
@@ -314,6 +315,69 @@ export default class UFDLServerContext {
         );
     }
 
+    // endregion
+
+    // region WEB-SOCKETS
+
+    /**
+     * Opens a web-socket connection to the backend.
+     *
+     * TODO: Incorporate token auth.
+     *
+     * @param url
+     *          The URL to connect to.
+     * @param on_message
+     *          Action to take on reception of a new message. Should
+     *          return true to close the connection, or false/void to
+     *          leave it open.
+     * @param on_close
+     *          Action to take when the connection is closed. Takes an argument
+     *          'self' which indicates if the connection was closed by the message
+     *          handler or the backend.
+     * @param on_error
+     *          Action to take when an error occurs in the connection.
+     */
+    public open_websocket<M extends RawJSONElement>(
+        url: string,
+        on_message?: (json: M) => boolean | void,
+        on_close?: (self: boolean) => void,
+        on_error?: (event: Event) => void
+    ): void {
+        // Change the protocol from http/https to ws
+        const wsHost = "ws" + (this.host.slice(this.host.startsWith("https") ? 5 : 4));
+
+        // Connect to the web-socket URL for the job
+        const webSocket = new WebSocket(`${wsHost}/${url}`);
+
+        // Create a closure to track if the websocket was closed by choice
+        let manuallyClosed: boolean = false;
+
+        // Create a callback which dispatches messages to the handler
+        webSocket.onmessage = function(e) {
+            // Parse the JSON data of the message
+            const data = JSON.parse(e.data);
+
+            // Pass the message to the provided handler
+            const shouldClose = on_message === undefined
+                ? false
+                : on_message(data);
+
+            // If the handler requested it, close the socket
+            if (shouldClose) {
+                manuallyClosed = true;
+                this.close();
+            }
+        };
+
+        // Create a close callback which informs the handler if the web-socket closes
+        // unexpectedly
+        webSocket.onclose = function() {
+            if (on_close !== undefined) on_close(manuallyClosed);
+        };
+
+        // Attach the error handler directly to the socket
+        webSocket.onerror = on_error === undefined ? null : on_error;
+    }
 
     // endregion
 

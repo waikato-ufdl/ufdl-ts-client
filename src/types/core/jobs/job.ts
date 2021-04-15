@@ -1,4 +1,5 @@
 import {SoftDeleteModelInstance} from "../../mixin";
+import {RawJSONObject} from "../../raw";
 
 export type JobTemplate = {
     readonly pk: number
@@ -31,3 +32,29 @@ export type JobInstance = {
     readonly description: string
     readonly is_cancelled: boolean
 } & SoftDeleteModelInstance
+
+export type JobTransitionMessage = {
+    readonly transition:
+        | "acquire"
+        | "release"
+        | "start"
+        | "progress"
+        | "finish"
+        | "error"
+        | "reset"
+        | "abort"
+        | "cancel"
+    readonly description: string
+    readonly pk: number
+    readonly progress: number
+    readonly cancelled: boolean
+    readonly node?: number
+    readonly error?: string
+    readonly transition_data: RawJSONObject
+}
+
+export type JobTransitionHandlers = {
+    [K in JobTransitionMessage['transition']]?: (
+        transition: JobTransitionMessage & {readonly transition: K}
+    ) => boolean | void
+}
