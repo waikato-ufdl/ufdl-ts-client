@@ -1,3 +1,5 @@
+import {DataStream} from "./types/base";
+
 export type Optional<T> = T | undefined;
 
 export type Nullable<T> = T | null;
@@ -6,7 +8,7 @@ export type RecursiveReadonly<T extends {}> = {
     readonly [K in keyof T]: (T[K] extends {} ? RecursiveReadonly<T[K]> : T[K])
 }
 
-export function get_response_stream(response: Response): ReadableStream<Uint8Array> {
+export function get_response_stream(response: Response): DataStream {
     let responseBody = response.body;
     if (responseBody !== null)
         return responseBody;

@@ -1,4 +1,5 @@
 import {AccessToken} from "./Tokens";
+import {DataStream} from "./types/base";
 
 export type Payload = {
     body?: BodyInit,
@@ -30,7 +31,7 @@ export function json_payload(json: object): Payload {
 
 export function data_payload(
     filename: string,
-    data: Blob | BufferSource | ReadableStream<Uint8Array>
+    data: Blob | BufferSource | DataStream
 ): Payload {
     return {
         body: data,
