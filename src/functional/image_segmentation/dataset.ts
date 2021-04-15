@@ -7,7 +7,6 @@ import {DataStream} from "../../types/base";
 import {DatasetInstance} from "../../types/core/dataset";
 import {NamedFileInstance} from "../../types/core/named_file";
 import {FilterSpec} from "../../json/generated/FilterSpec";
-import {get_response_stream} from "../../util";
 
 export async function list(
     context: UFDLServerContext,
