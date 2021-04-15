@@ -15,7 +15,7 @@ export default class UFDLServerContext {
     private _host: string;
     private _username: string;
     private _password: string;
-    private _tokens: Promise<Tokens>;
+    private _tokens: Promise<Tokens> | undefined;
     private _node_id?: number;
     private readonly _storage: Storage;
 
@@ -42,7 +42,7 @@ export default class UFDLServerContext {
         this._username = username;
         this._password = password;
         this._node_id = undefined;
-        this._tokens = this.establish_tokens();
+        this._tokens = undefined;
         this._storage = storage;
     }
 
@@ -65,14 +65,14 @@ export default class UFDLServerContext {
     public change_server(host: string): void {
         if (host == this._host) return;
         this._host = host;
-        this._tokens = this.establish_tokens();
+        this._tokens = undefined;
     }
 
     public change_user(username: string, password: string): void {
         if (username == this._username && password == this._password) return;
         this._username = username;
         this._password = password;
-        this._tokens = this.establish_tokens();
+        this._tokens = undefined;
     }
 
     get node_id(): Optional<number> {
@@ -173,6 +173,7 @@ export default class UFDLServerContext {
     }
 
     get tokens(): Promise<Tokens> {
+        if (this._tokens === undefined) this._tokens = this.establish_tokens();
         return this._tokens;
     }
 
@@ -206,9 +207,9 @@ export default class UFDLServerContext {
     private invalidate_token(invalid_token: AccessToken): void {
         // TODO: Race-condition where if two threads grab the this._tokens at the same time,
         //       multiple refreshes may be performed.
-        this._tokens = this._tokens.then(
+        this._tokens = this.tokens.then(
             async (tokens) => {
-                if (tokens.access == invalid_token) {
+                if (tokens.access === invalid_token) {
                     let new_tokens = await this.refresh_tokens(tokens.refresh);
                     this.store_tokens(new_tokens);
                     return new_tokens;
@@ -537,8 +538,12 @@ export default class UFDLServerContext {
     // endregion
 }
 
-async function raise_for_response(promise: Promise<Response>): Promise<Response> {
-    return promise.then(raise_for_status)
+async function raise_for_response(
+    promise: Promise<Response>
+): Promise<Response> {
+    const response = await promise;
+
+    return raise_for_status(response);
 }
 
 function raise_for_status(response: Response): Response {
