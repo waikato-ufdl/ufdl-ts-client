@@ -11,7 +11,7 @@ import {MembershipInstance} from "../../types/core/membership";
 import {SoftDeleteModelInstance} from "../../types/mixin";
 import {RawJSONObject} from "../../types/raw";
 import {DatasetInstance} from "../../types/core/dataset";
-import {HardwareInstance} from "../../types/core/nodes/HardwareInstance";
+import {HardwareInstance} from "../../types/core/nodes/hardware";
 import {LicenceInstance} from "../../types/core/licence";
 
 // region AcquireJobViewSet

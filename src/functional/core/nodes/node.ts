@@ -2,7 +2,7 @@ import * as mixin_actions from "../mixin_actions";
 import UFDLServerContext from "../../../UFDLServerContext";
 import {NODES_URL} from "../../../constants";
 import {FilterSpec} from "../../../json/generated/FilterSpec";
-import {NodeInstance} from "../../../types/core/nodes/NodeInstance";
+import {NodeInstance} from "../../../types/core/nodes/node";
 import * as base_actions from "../../base_actions";
 
 export async function list(
