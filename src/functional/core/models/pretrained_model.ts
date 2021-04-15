@@ -2,7 +2,7 @@ import UFDLServerContext from "../../../UFDLServerContext";
 import {FilterSpec} from "../../../json/generated/FilterSpec";
 import {PretrainedModelInstance} from "../../../types/core/models/pretrained_model";
 import * as base_actions from "../../base_actions";
-import {MODELS_URL, PRETRAINED_MODELS_URL} from "../../../constants";
+import {PRETRAINED_MODELS_URL} from "../../../constants";
 import {DataStream} from "../../../types/base";
 import {ModelInstance} from "../../../types/core/models/model";
 import * as mixin_actions from "../mixin_actions";
