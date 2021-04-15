@@ -3,6 +3,8 @@ import {FilterSpec} from "../../../json/generated/FilterSpec";
 import {ModelInstance} from "../../../types/core/models/model";
 import * as base_actions from "../../base_actions";
 import {MODELS_URL} from "../../../constants";
+import * as mixin_actions from "../mixin_actions";
+import {DataStream} from "../../../types/base";
 
 export async function list(
     context: UFDLServerContext,
@@ -86,6 +88,64 @@ export async function destroy(
     pk: number
 ): Promise<void> {
     return base_actions.destroy(
+        context,
+        MODELS_URL,
+        pk
+    );
+}
+
+export async function set_file(
+    context: UFDLServerContext,
+    pk: number,
+    data: Blob | BufferSource | DataStream
+): Promise<ModelInstance> {
+    return mixin_actions.set_file(
+        context,
+        MODELS_URL,
+        pk,
+        data
+    );
+}
+
+export async function delete_file_sf(
+    context: UFDLServerContext,
+    pk: number
+): Promise<ModelInstance> {
+    return mixin_actions.delete_file_sf(
+        context,
+        MODELS_URL,
+        pk
+    );
+}
+
+export async function download(
+    context: UFDLServerContext,
+    pk: number
+): Promise<DataStream> {
+    return mixin_actions.download(
+        context,
+        MODELS_URL,
+        pk,
+        "data"
+    );
+}
+
+export async function hard_delete(
+    context: UFDLServerContext,
+    pk: number
+): Promise<ModelInstance> {
+    return mixin_actions.hard_delete(
+        context,
+        MODELS_URL,
+        pk
+    );
+}
+
+export async function reinstate(
+    context: UFDLServerContext,
+    pk: number
+): Promise<ModelInstance> {
+    return mixin_actions.reinstate(
         context,
         MODELS_URL,
         pk
