@@ -25,7 +25,7 @@ export default class UFDLServerContext {
         storage: Storage = localStorage
     ): UFDLServerContext {
         return new UFDLServerContext(
-            window.location.host,
+            window.location.origin,
             username,
             password,
             storage
