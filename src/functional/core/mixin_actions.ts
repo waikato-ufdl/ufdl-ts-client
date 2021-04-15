@@ -344,11 +344,11 @@ export async function get_hardware_generation(
 
 // region ImportTemplateViewSet
 
-export async function import_template(
+export async function import_template<M extends JobTemplateInstance>(
     context: UFDLServerContext,
     url: string,
     template: JobTemplateSpec
-): Promise<JobTemplateInstance> {
+): Promise<M> {
     const response = await context.post(`${url}/import`, template);
 
     return response.json();
