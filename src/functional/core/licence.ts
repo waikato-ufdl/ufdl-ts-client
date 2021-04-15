@@ -42,7 +42,7 @@ export async function partial_update(
     name?: string,
     url?: string
 ): Promise<LicenceInstance> {
-    return base_actions.update(context, LICENCES_URL, pk, {name: name, url: url});
+    return base_actions.partial_update(context, LICENCES_URL, pk, {name: name, url: url});
 }
 
 export async function destroy(
