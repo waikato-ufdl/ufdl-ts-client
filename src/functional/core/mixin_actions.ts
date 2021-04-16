@@ -31,7 +31,7 @@ export async function release_job(
     url: string,
     pk: number
 ): Promise<JobInstance> {
-    let response = await context.get(`${url}/${pk}/release`);
+    let response = await context.delete_(`${url}/${pk}/release`);
 
     return response.json();
 }
