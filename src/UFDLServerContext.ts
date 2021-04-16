@@ -427,17 +427,20 @@ export default class UFDLServerContext {
             access_token
         );
 
-        // If the response failed due to authorization failure
-        if (response.status === 401 /* unauthorized */) {
+        // If the response failed due to authorization failure, retry
+        while (response.status === 401 /* unauthorized */) {
             // Invalidate the token we used
             this.invalidate_token(access_token);
+
+            // Get a new access token
+            access_token = await this.access_token;
 
             // Try again with a new token
             response = await this._fetch_auth(
                 url,
                 method,
                 payload,
-                await this.access_token
+                access_token
             );
         }
 
