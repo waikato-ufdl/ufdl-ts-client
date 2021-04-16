@@ -1,5 +1,5 @@
 export class Token {
-    _value: string;
+    private readonly _value: string;
 
     constructor(value: string) {
         this._value = value;
