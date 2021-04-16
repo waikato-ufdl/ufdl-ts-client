@@ -10,8 +10,15 @@ export class Token {
     }
 }
 
-export class AccessToken extends Token {}
-export class RefreshToken extends Token {}
+export const ACCESS_TOKEN = Symbol("ACCESS TOKEN");
+export const REFRESH_TOKEN = Symbol("REFRESH TOKEN");
+
+export class AccessToken extends Token {
+    readonly type: typeof ACCESS_TOKEN = ACCESS_TOKEN;
+}
+export class RefreshToken extends Token {
+    readonly type: typeof REFRESH_TOKEN = REFRESH_TOKEN;
+}
 
 export class Tokens {
     _access: AccessToken;
