@@ -6,6 +6,7 @@ import {DataStream} from "../../../types/base";
 import {JobInstance, JobTransitionHandlers, JobTransitionMessage} from "../../../types/core/jobs/job";
 import {JobOutputInstance} from "../../../types/core/jobs/job_output";
 import {FilterSpec} from "../../../json/generated/FilterSpec";
+import {RawJSONObject} from "../../../types/raw";
 
 export async function list(
     context: UFDLServerContext,
@@ -166,6 +167,21 @@ export async function start_job(
         JOBS_URL,
         pk,
         send_notification
+    );
+}
+
+export async function progress_job(
+    context: UFDLServerContext,
+    pk: number,
+    progress: number,
+    body: RawJSONObject
+): Promise<JobInstance> {
+    return mixin_actions.progress_job(
+        context,
+        JOBS_URL,
+        pk,
+        progress,
+        body
     );
 }
 

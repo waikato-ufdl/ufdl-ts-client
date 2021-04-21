@@ -50,6 +50,21 @@ export async function start_job(
     return response.json();
 }
 
+export async function progress_job(
+    context: UFDLServerContext,
+    url: string,
+    pk: number,
+    progress: number,
+    body: RawJSONObject = {}
+): Promise<JobInstance> {
+    let response = await context.post(
+        `${url}/${pk}/progress/${progress}`,
+        body
+    );
+
+    return response.json();
+}
+
 export async function finish_job(
     context: UFDLServerContext,
     url: string,
