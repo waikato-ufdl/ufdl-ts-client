@@ -21,7 +21,7 @@ export type InputValue = {
 export type JobInstance = {
     readonly pk: number
     readonly template: JobTemplate
-    readonly parent: number
+    readonly parent: number | null
     readonly start_time: string | null
     readonly end_time: string | null
     readonly error_reason: string | null
