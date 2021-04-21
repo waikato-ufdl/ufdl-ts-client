@@ -25,6 +25,36 @@ export async function retrieve(
     return base_actions.retrieve(context, JOBS_URL, pk);
 }
 
+export async function update(
+    context: UFDLServerContext,
+    pk: number,
+    description: string
+): Promise<JobInstance> {
+    return base_actions.update(
+        context,
+        JOBS_URL,
+        pk,
+        {
+            description: description
+        }
+    )
+}
+
+export async function partial_update(
+    context: UFDLServerContext,
+    pk: number,
+    description?: string
+): Promise<JobInstance> {
+    return base_actions.partial_update(
+        context,
+        JOBS_URL,
+        pk,
+        {
+            description: description
+        }
+    )
+}
+
 export async function destroy(
     context: UFDLServerContext,
     pk: number
