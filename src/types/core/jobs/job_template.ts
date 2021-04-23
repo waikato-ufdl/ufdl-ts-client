@@ -24,4 +24,9 @@ export type JobTemplateInstance = {
     readonly inputs: Input[]
     readonly parameters: Parameter[]
     readonly licence: number
+    readonly framework?: number
+    readonly type?: string
+    readonly executor_class?: string
+    readonly required_packages?: string
+    readonly body?: string
 } & SoftDeleteModelInstance

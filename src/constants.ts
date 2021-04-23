@@ -20,7 +20,6 @@ export const PRETRAINED_MODELS_URL = "v1/pretrained-models";
 export const JOBS_URL = "v1/jobs";
 export const JOB_TEMPLATES_URL = "v1/job-templates";
 export const JOB_OUTPUTS_URL = "v1/job-outputs";
-export const WORKABLE_TEMPLATES_URL = "v1/workable-templates";
 
 export let IMAGE_CLASSIFICATION_DATASETS_URL = "v1/classify/datasets";
 
