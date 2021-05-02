@@ -119,6 +119,14 @@ export async function add_file(
     return await core_mixin_actions.add_file(context, IMAGE_CLASSIFICATION_DATASETS_URL, pk, filename, data);
 }
 
+export async function add_files(
+    context: UFDLServerContext,
+    pk: number,
+    files: Uint8Array
+): Promise<NamedFileInstance[]> {
+    return await core_mixin_actions.add_files(context, IMAGE_CLASSIFICATION_DATASETS_URL, pk, files);
+}
+
 export async function get_file(
     context: UFDLServerContext,
     pk: number,
@@ -234,15 +242,27 @@ export async function clear(
     );
 }
 
-
 export async function get_categories(
     context: UFDLServerContext,
     pk: number
-): Promise<ReturnType<typeof mixin_actions.get_categories>> {
+): Promise<mixin_actions.CategoriesFile> {
     return mixin_actions.get_categories(
         context,
         IMAGE_CLASSIFICATION_DATASETS_URL,
         pk
+    );
+}
+
+export async function set_categories(
+    context: UFDLServerContext,
+    pk: number,
+    categories: mixin_actions.CategoriesFile
+): Promise<mixin_actions.CategoriesFile> {
+    return mixin_actions.set_categories(
+        context,
+        IMAGE_CLASSIFICATION_DATASETS_URL,
+        pk,
+        categories
     );
 }
 
@@ -251,7 +271,7 @@ export async function add_categories(
     pk: number,
     images: string[],
     categories: string[]
-): Promise<ReturnType<typeof mixin_actions.add_categories>> {
+): Promise<mixin_actions.CategoriesFile> {
     return mixin_actions.add_categories(
         context,
         IMAGE_CLASSIFICATION_DATASETS_URL,
@@ -266,7 +286,7 @@ export async function remove_categories(
     pk: number,
     images: string[],
     categories: string[]
-): Promise<ReturnType<typeof mixin_actions.remove_categories>> {
+): Promise<mixin_actions.CategoriesFile> {
     return mixin_actions.remove_categories(
         context,
         IMAGE_CLASSIFICATION_DATASETS_URL,

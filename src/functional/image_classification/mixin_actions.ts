@@ -1,14 +1,27 @@
 import UFDLServerContext from "../../UFDLServerContext";
 import {Convert} from "../../json/generated/CategoriesFile";
 
+export type CategoriesFile = ReturnType<typeof Convert.toCategoriesFile>
+
 // region CategoriesViewSet
 
 export async function get_categories(
     context: UFDLServerContext,
     url: string,
     pk: number
-): Promise<ReturnType<typeof Convert.toCategoriesFile>> {
+): Promise<CategoriesFile> {
     const response = await context.get(`${url}/${pk}/categories`);
+
+    return response.json()
+}
+
+export async function set_categories(
+    context: UFDLServerContext,
+    url: string,
+    pk: number,
+    categories: CategoriesFile
+): Promise<CategoriesFile> {
+    const response = await context.post(`${url}/${pk}/categories`, categories);
 
     return response.json()
 }
@@ -19,7 +32,7 @@ export async function add_categories(
     pk: number,
     images: string[],
     categories: string[]
-): Promise<ReturnType<typeof Convert.toCategoriesFile>> {
+): Promise<CategoriesFile> {
     const response = await context.patch(
         `${url}/${pk}/categories`,
         {
@@ -38,7 +51,7 @@ export async function remove_categories(
     pk: number,
     images: string[],
     categories: string[]
-): Promise<ReturnType<typeof Convert.toCategoriesFile>> {
+): Promise<CategoriesFile> {
     const response = await context.patch(
         `${url}/${pk}/categories`,
         {
