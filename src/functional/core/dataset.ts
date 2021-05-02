@@ -118,6 +118,14 @@ export async function add_file(
     return await mixin_actions.add_file(context, DATASETS_URL, pk, filename, data);
 }
 
+export async function add_files(
+    context: UFDLServerContext,
+    pk: number,
+    files: Uint8Array
+): Promise<NamedFileInstance[]> {
+    return await mixin_actions.add_files(context, DATASETS_URL, pk, files);
+}
+
 export async function get_file(
     context: UFDLServerContext,
     pk: number,

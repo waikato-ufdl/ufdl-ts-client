@@ -258,6 +258,21 @@ export async function add_file(
     return response.json();
 }
 
+export async function add_files(
+    context: UFDLServerContext,
+    url: string,
+    pk: number,
+    files: Uint8Array
+): Promise<NamedFileInstance[]> {
+    let response = await context.upload(
+        `${url}/${pk}/files-multi`,
+        "data",
+        files
+    );
+
+    return response.json();
+}
+
 export async function get_file(
     context: UFDLServerContext,
     url: string,
