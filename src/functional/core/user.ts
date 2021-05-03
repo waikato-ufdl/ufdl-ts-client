@@ -1,4 +1,5 @@
 import * as base_actions from "../base_actions";
+import * as mixin_actions from "./mixin_actions";
 import UFDLServerContext from "../../UFDLServerContext";
 import {FilterSpec} from "../../json/generated/FilterSpec";
 import {USERS_URL} from "../../constants";
@@ -100,4 +101,15 @@ export async function destroy(
     pk: number
 ): Promise<void> {
     await base_actions.destroy(context, USERS_URL, pk);
+}
+
+export async function get_by_name(
+    context: UFDLServerContext,
+    name: string
+): Promise<UserInstance[]> {
+    return mixin_actions.get_by_name(
+        context,
+        USERS_URL,
+        name
+    )
 }

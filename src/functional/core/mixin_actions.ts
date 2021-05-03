@@ -356,6 +356,22 @@ export async function get_all_metadata(
 
 // endregion
 
+// region GetByNameViewSet
+
+export async function get_by_name<M extends RawModelInstance>(
+    context: UFDLServerContext,
+    url: string,
+    name: string
+): Promise<M[]> {
+    let response = await context.get(
+        `${url}/${name}`
+    );
+
+    return response.json()
+}
+
+// endregion
+
 // region GetHardwareGenerationViewSet
 
 export async function get_hardware_generation(
