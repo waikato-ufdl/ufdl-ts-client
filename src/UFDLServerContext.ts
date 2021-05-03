@@ -1,4 +1,4 @@
-import {JWT_OBTAIN_TOKEN_URL, JWT_REFRESH_TOKEN_URL, JWT_VERIFY_TOKEN_URL} from "./constants";
+import {JWT_OBTAIN_TOKEN_URL, JWT_REFRESH_TOKEN_URL, JWT_VERIFY_TOKEN_URL, USERS_URL} from "./constants";
 import {AccessToken, RefreshToken, Token, Tokens} from "./Tokens";
 import {Method} from "./Method";
 import {Nullable, Optional, toHexString} from "./util";
@@ -6,6 +6,7 @@ import {authorization_headers, combine_headers, data_payload, json_payload, node
 import UFDLCrypto from "./UFDLCrypto";
 import {DataStream} from "./types/base";
 import {RawJSONElement} from "./types/raw";
+import {UserInstance} from "./types/core/user";
 
 const EMPTY_PAYLOAD: Payload = {headers: new Headers()};
 
@@ -18,6 +19,7 @@ export default class UFDLServerContext {
     private _tokens: Promise<Tokens> | undefined;
     private _node_id?: number;
     private readonly _storage: Storage;
+    private _record: Promise<UserInstance> | UserInstance | undefined
 
     public static for_current_host(
         username: string,
@@ -44,6 +46,7 @@ export default class UFDLServerContext {
         this._node_id = undefined;
         this._tokens = undefined;
         this._storage = storage;
+        this._record = undefined;
     }
 
     /***
@@ -66,6 +69,7 @@ export default class UFDLServerContext {
         if (host == this._host) return;
         this._host = host;
         this._tokens = undefined;
+        this._record = undefined;
     }
 
     public change_user(username: string, password: string): void {
@@ -73,6 +77,7 @@ export default class UFDLServerContext {
         this._username = username;
         this._password = password;
         this._tokens = undefined;
+        this._record = undefined;
     }
 
     get node_id(): Optional<number> {
@@ -81,6 +86,18 @@ export default class UFDLServerContext {
 
     set node_id(value: Optional<number>) {
         this._node_id = value;
+    }
+
+    get record(): Promise<UserInstance> | UserInstance {
+        // Can't import the get_by_name function here so just re-implement it
+        if (this._record === undefined)
+            this._record = this.get(`${USERS_URL}/${this.username}`).then(
+                (response) => response.json()
+            ).then(
+                (json) => this._record = json[0]
+            );
+
+        return this._record;
     }
 
     // region CALCULATED PROPERTIES
