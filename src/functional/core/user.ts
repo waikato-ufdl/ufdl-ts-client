@@ -17,7 +17,8 @@ export async function create(
     password: string,
     email: string,
     first_name: string = "",
-    last_name: string = ""
+    last_name: string = "",
+    is_admin: boolean = false
 ): Promise<UserInstance> {
     return await base_actions.create(
         context,
@@ -27,7 +28,8 @@ export async function create(
             password: password,
             email: email,
             first_name: first_name,
-            last_name: last_name
+            last_name: last_name,
+            is_staff: is_admin
         }
     );
 }
@@ -47,7 +49,8 @@ export async function update(
     first_name: string,
     last_name: string,
     email: string,
-    is_active: boolean
+    is_active: boolean,
+    is_admin: boolean
 ): Promise<UserInstance> {
     return await base_actions.update(
         context,
@@ -59,7 +62,8 @@ export async function update(
             email: email,
             first_name: first_name,
             last_name: last_name,
-            is_active: is_active
+            is_active: is_active,
+            is_staff: is_admin
         }
     );
 }
@@ -72,7 +76,8 @@ export async function partial_update(
     first_name?: string,
     last_name?: string,
     email?: string,
-    is_active?: boolean
+    is_active?: boolean,
+    is_admin?: boolean
 ): Promise<UserInstance> {
     return await base_actions.partial_update(
         context,
@@ -84,7 +89,8 @@ export async function partial_update(
             first_name: first_name,
             last_name: last_name,
             email: email,
-            is_active: is_active
+            is_active: is_active,
+            is_staff: is_admin
         }
     );
 }
