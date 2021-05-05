@@ -1,7 +1,7 @@
 import {JWT_OBTAIN_TOKEN_URL, JWT_REFRESH_TOKEN_URL, JWT_VERIFY_TOKEN_URL, USERS_URL} from "./constants";
 import {AccessToken, RefreshToken, Token, Tokens} from "./Tokens";
 import {Method} from "./Method";
-import {Nullable, Optional, toHexString} from "./util";
+import {toHexString} from "./util";
 import {authorization_headers, combine_headers, data_payload, json_payload, node_id_headers, Payload} from "./payload";
 import UFDLCrypto from "./UFDLCrypto";
 import {DataStream} from "./types/base";
@@ -80,11 +80,11 @@ export default class UFDLServerContext {
         this._record = undefined;
     }
 
-    get node_id(): Optional<number> {
+    get node_id(): number | undefined {
         return this._node_id;
     }
 
-    set node_id(value: Optional<number>) {
+    set node_id(value: number | undefined) {
         this._node_id = value;
     }
 
@@ -243,7 +243,7 @@ export default class UFDLServerContext {
 
     // endregion
 
-    private static handle_json_payload(json: Nullable<{}>): Payload {
+    private static handle_json_payload(json: {} | null): Payload {
         if (json === null)
             return EMPTY_PAYLOAD;
         else
@@ -262,7 +262,7 @@ export default class UFDLServerContext {
         );
     }
 
-    public async post(url: string, json: Nullable<{}>, auth: boolean = true): Promise<Response> {
+    public async post(url: string, json: {} | null, auth: boolean = true): Promise<Response> {
         return this.fetch(
             url,
             Method.POST,
@@ -271,7 +271,7 @@ export default class UFDLServerContext {
         );
     }
 
-    public async put(url: string, json: Nullable<{}>, auth: boolean = true): Promise<Response> {
+    public async put(url: string, json: {} | null, auth: boolean = true): Promise<Response> {
         return this.fetch(
             url,
             Method.PUT,
@@ -280,7 +280,7 @@ export default class UFDLServerContext {
         );
     }
 
-    public async patch(url: string, json: Nullable<{}>, auth: boolean = true): Promise<Response> {
+    public async patch(url: string, json: {} | null, auth: boolean = true): Promise<Response> {
         return this.fetch(
             url,
             Method.PATCH,
@@ -316,7 +316,7 @@ export default class UFDLServerContext {
 
     public async download(
         url: string,
-        json: Nullable<{}> = null,
+        json: {} | null = null,
         auth: boolean = true
     ): Promise<Response> {
         let method: Method;

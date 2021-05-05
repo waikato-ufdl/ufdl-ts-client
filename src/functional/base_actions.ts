@@ -1,6 +1,5 @@
 import UFDLServerContext from "../UFDLServerContext";
 import {FilterSpec} from "../json/generated/FilterSpec";
-import {Nullable} from "../util";
 import {RawModelInstance} from "../types/base";
 
 export async function list<M extends RawModelInstance>(
@@ -8,7 +7,7 @@ export async function list<M extends RawModelInstance>(
     url: string,
     filter?: FilterSpec
 ): Promise<M[]> {
-    let filterSpec: Nullable<FilterSpec>;
+    let filterSpec: FilterSpec | null;
     if (filter === undefined)
         filterSpec = null;
     else
