@@ -9,7 +9,7 @@ import {NamedFileInstance} from "../../types/core/named_file";
 import {JobTemplateInstance} from "../../types/core/jobs/job_template";
 import {MembershipInstance} from "../../types/core/membership";
 import {SoftDeleteModelInstance} from "../../types/mixin";
-import {RawJSONObject} from "../../types/raw";
+import {RawJSONObject} from "../../json/types";
 import {DatasetInstance} from "../../types/core/dataset";
 import {HardwareInstance} from "../../types/core/nodes/hardware";
 import {LicenceInstance} from "../../types/core/licence";

@@ -5,7 +5,7 @@ import {toHexString} from "./util";
 import {authorization_headers, combine_headers, data_payload, json_payload, node_id_headers, Payload} from "./payload";
 import UFDLCrypto from "./UFDLCrypto";
 import {DataStream} from "./types/base";
-import {RawJSONElement} from "./types/raw";
+import {RawJSONElement} from "./json/types";
 import {UserInstance} from "./types/core/user";
 
 const EMPTY_PAYLOAD: Payload = {headers: new Headers()};

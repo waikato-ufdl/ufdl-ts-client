@@ -1,4 +1,4 @@
-import {RawJSONObject} from "./raw";
+import {RawJSONObject} from "../json/types";
 
 /** The base type of all serialised models. */
 export type RawModelInstance = Readonly<RawJSONObject & {pk: number}>

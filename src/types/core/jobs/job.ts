@@ -1,5 +1,5 @@
 import {SoftDeleteModelInstance} from "../../mixin";
-import {RawJSONObject} from "../../raw";
+import {RawJSONObject} from "../../../json/types";
 
 export type JobTemplate = {
     readonly pk: number

@@ -6,7 +6,7 @@ import {DataStream} from "../../../types/base";
 import {JobInstance, JobTransitionHandlers, JobTransitionMessage} from "../../../types/core/jobs/job";
 import {JobOutputInstance} from "../../../types/core/jobs/job_output";
 import {FilterSpec} from "../../../json/generated/FilterSpec";
-import {RawJSONObject} from "../../../types/raw";
+import {RawJSONObject} from "../../../json/types";
 
 export async function list(
     context: UFDLServerContext,
