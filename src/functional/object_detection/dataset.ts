@@ -7,7 +7,6 @@ import {DataStream} from "../../types/base";
 import {DatasetInstance} from "../../types/core/dataset";
 import {NamedFileInstance} from "../../types/core/named_file";
 import {Annotation, Image} from "../../json/generated/Image";
-import {RecursiveReadonly} from "../../util";
 import {FilterSpec} from "../../json/generated/FilterSpec";
 
 export async function list(
@@ -245,7 +244,7 @@ export async function clear(
 export async function get_annotations(
     context: UFDLServerContext,
     pk: number
-): Promise<{readonly [filename: string]: RecursiveReadonly<Image> | undefined }> {
+): Promise<{readonly [filename: string]: Image | undefined }> {
     return await mixin_actions.get_annotations(context, OBJECT_DETECTION_DATASETS_URL, pk);
 }
 
@@ -253,7 +252,7 @@ export async function get_annotations_for_image(
     context: UFDLServerContext,
     pk: number,
     image: string
-): Promise<RecursiveReadonly<Annotation>[]> {
+): Promise<Annotation[]> {
     return await mixin_actions.get_annotations_for_image(context, OBJECT_DETECTION_DATASETS_URL, pk, image);
 }
 

@@ -1,6 +1,5 @@
 import UFDLServerContext from "../../UFDLServerContext";
 import {Image, Annotation} from "../../json/generated/Image";
-import {RecursiveReadonly} from "../../util";
 
 // region AnnotationsViewSet
 
@@ -8,7 +7,7 @@ export async function get_annotations(
     context: UFDLServerContext,
     url: string,
     pk: number
-): Promise<{readonly [filename: string]: RecursiveReadonly<Image> | undefined }> {
+): Promise<{[filename: string]: Image | undefined }> {
     let response = await context.get(`${url}/${pk}/annotations`);
 
     return response.json();
@@ -19,7 +18,7 @@ export async function get_annotations_for_image(
     url: string,
     pk: number,
     image: string
-): Promise<RecursiveReadonly<Annotation>[]> {
+): Promise<Annotation[]> {
     let response = await context.get(`${url}/${pk}/annotations/${image}`);
 
     return response.json();
