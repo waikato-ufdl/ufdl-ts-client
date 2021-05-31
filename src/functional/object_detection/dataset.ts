@@ -186,9 +186,10 @@ export async function get_all_metadata(
 export async function copy(
     context: UFDLServerContext,
     pk: number,
-    new_name?: string
+    new_name?: string,
+    only_files?: string[]
 ): Promise<DatasetInstance> {
-    return await core_mixin_actions.copy(context, OBJECT_DETECTION_DATASETS_URL, pk, {new_name: new_name});
+    return await core_mixin_actions.copy(context, OBJECT_DETECTION_DATASETS_URL, pk, {new_name: new_name, only_files: only_files});
 }
 
 export async function merge(

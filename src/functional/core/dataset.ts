@@ -193,9 +193,9 @@ export async function copy(
     context: UFDLServerContext,
     pk: number,
     new_name?: string,
-    clear_files?: boolean
+    only_files?: string[]
 ): Promise<DatasetInstance> {
-    return await mixin_actions.copy(context, DATASETS_URL, pk, {new_name: new_name, clear_files: clear_files});
+    return await mixin_actions.copy(context, DATASETS_URL, pk, {new_name: new_name, only_files: only_files});
 }
 
 export async function merge(
