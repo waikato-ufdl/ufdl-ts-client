@@ -1,4 +1,5 @@
 import * as base_actions from "../../base_actions";
+import * as mixin_actions from "../mixin_actions"
 import UFDLServerContext from "../../../UFDLServerContext";
 import {FilterSpec} from "../../../json/generated/FilterSpec";
 import {JOB_TYPES_URL} from "../../../constants";
@@ -77,5 +78,16 @@ export async function destroy(
         context,
         JOB_TYPES_URL,
         pk
+    );
+}
+
+export async function get_all_values_of_type(
+    context: UFDLServerContext,
+    type_string: string
+): Promise<{}[]> {
+    return mixin_actions.get_all_values_of_type(
+        context,
+        JOB_TYPES_URL,
+        type_string
     );
 }

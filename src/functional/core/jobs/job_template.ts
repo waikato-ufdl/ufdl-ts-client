@@ -7,6 +7,7 @@ import {CreateJobSpec} from "../../../json/generated/CreateJobSpec";
 import {JobTemplateSpec} from "../../../json/generated/JobTemplateSpec";
 import {JobTemplateInstance} from "../../../types/core/jobs/job_template";
 import {JobInstance} from "../../../types/core/jobs/job";
+import {format_query_params} from "../../../util";
 
 export async function list(
     context: UFDLServerContext,
@@ -63,4 +64,50 @@ export async function export_template(
     pk: number
 ): Promise<JobTemplateSpec> {
     return mixin_actions.export_template(context, JOB_TEMPLATES_URL, pk);
+}
+
+export async function get_all_matching_templates(
+    context: UFDLServerContext,
+    contract_name: string,
+    types: {readonly [type_name: string]: string}
+): Promise<JobTemplateInstance[]> {
+    return mixin_actions.get_all_matching_templates(
+        context,
+        JOB_TEMPLATES_URL,
+        contract_name,
+        types
+    )
+}
+
+export async function get_all_parameters(
+    context: UFDLServerContext,
+    pk: number
+): Promise<{}> {
+    return mixin_actions.get_all_parameters(
+        context,
+        JOB_TEMPLATES_URL,
+        pk
+    )
+}
+
+export async function get_types(
+    context: UFDLServerContext,
+    pk: number
+): Promise<{[name: string]: string}> {
+    return mixin_actions.get_types(
+        context,
+        JOB_TEMPLATES_URL,
+        pk
+    )
+}
+
+export async function get_outputs(
+    context: UFDLServerContext,
+    pk: number
+): Promise<{[name: string]: string}> {
+    return mixin_actions.get_outputs(
+        context,
+        JOB_TEMPLATES_URL,
+        pk
+    )
 }

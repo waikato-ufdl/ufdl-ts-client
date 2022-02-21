@@ -1,5 +1,5 @@
 import UFDLServerContext from "../../UFDLServerContext";
-import {get_response_stream, get_response_json_value} from "../../util";
+import {get_response_stream, get_response_json_value, format_query_params} from "../../util";
 import {CreateJobSpec} from "../../json/generated/CreateJobSpec";
 import {JobTemplateSpec} from "../../json/generated/JobTemplateSpec";
 import {DataStream, RawModelInstance} from "../../types/base";
@@ -349,6 +349,75 @@ export async function get_all_metadata(
 ): Promise<{readonly [filename: string]: string | undefined}> {
     let response = await context.get(
         `${url}/${pk}/metadata`
+    );
+
+    return response.json()
+}
+
+// endregion
+
+// region GetAllMatchingTemplatesViewSet
+
+export async function get_all_matching_templates(
+    context: UFDLServerContext,
+    url: string,
+    contract_name: string,
+    types: {readonly [type_name: string]: string}
+): Promise<JobTemplateInstance[]> {
+    let response = await context.get(
+        `${url}/get-all-matching-templates/${contract_name}${format_query_params(types)}`
+    );
+
+    return response.json()
+}
+
+export async function get_all_parameters(
+    context: UFDLServerContext,
+    url: string,
+    pk: number
+): Promise<{}> {
+    let response = await context.get(
+        `${url}/${pk}/get-all-parameters`
+    );
+
+    return response.json()
+}
+
+export async function get_types(
+    context: UFDLServerContext,
+    url: string,
+    pk: number
+): Promise<{[name: string]: string}> {
+    let response = await context.get(
+        `${url}/${pk}/get-types`
+    );
+
+    return response.json()
+}
+
+export async function get_outputs(
+    context: UFDLServerContext,
+    url: string,
+    pk: number
+): Promise<{[name: string]: string}> {
+    let response = await context.get(
+        `${url}/${pk}/get-outputs`
+    );
+
+    return response.json()
+}
+
+// endregion
+
+// region GetAllValuesOfTypeViewSet
+
+export async function get_all_values_of_type(
+    context: UFDLServerContext,
+    url: string,
+    type_string: string
+): Promise<{}[]> {
+    let response = await context.get(
+        `${url}/get-all-values/${type_string}`
     );
 
     return response.json()

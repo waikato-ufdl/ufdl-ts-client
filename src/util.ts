@@ -58,3 +58,16 @@ export function toHexString(bytes: Uint8Array): string {
         (value) => value.toString(16).padStart(2, "0")
     ).join("");
 }
+
+export function format_query_params(
+    params: {readonly [name: string]: string}
+): string {
+    let result = ""
+    for (let name in params) {
+        result += `${name}=${params[name]}&`
+    }
+    if (result.length > 0) {
+        result = `?${result.slice(0, -1)}`
+    }
+    return result
+}

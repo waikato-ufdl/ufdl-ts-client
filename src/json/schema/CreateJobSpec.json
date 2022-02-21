@@ -11,7 +11,7 @@
             "type": "string"
           },
           "value": {
-            "type": "string"
+            "$ref": "#/definitions/is-json"
           }
         },
         "required": [
@@ -1400,11 +1400,26 @@
       "type": "object",
       "properties": {},
       "additionalProperties": {
-        "type": "string"
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "value": {
+            "$ref": "#/definitions/is-json"
+          }
+        },
+        "required": [
+          "type",
+          "value"
+        ],
+        "additionalProperties": false
       }
     }
   },
-  "definitions": {},
+  "definitions": {
+    "is-json": true
+  },
   "required": [
     "input_values"
   ],
