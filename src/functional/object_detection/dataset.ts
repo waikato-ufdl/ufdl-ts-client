@@ -6,8 +6,8 @@ import * as mixin_actions from "./mixin_actions";
 import {DataStream} from "../../types/base";
 import {DatasetInstance} from "../../types/core/dataset";
 import {NamedFileInstance} from "../../types/core/named_file";
-import {Annotation, Image} from "../../json/generated/Image";
 import {FilterSpec} from "../../json/generated/FilterSpec";
+import {Annotation, AnnotationsFile, FileType} from "../../json/hand_crafted/AnnotationsFile";
 
 export async function list(
     context: UFDLServerContext,
@@ -242,41 +242,210 @@ export async function clear(
     );
 }
 
-export async function get_annotations(
-    context: UFDLServerContext,
-    pk: number
-): Promise<{readonly [filename: string]: Image | undefined }> {
-    return await mixin_actions.get_annotations(context, OBJECT_DETECTION_DATASETS_URL, pk);
-}
-
-export async function get_annotations_for_image(
-    context: UFDLServerContext,
-    pk: number,
-    image: string
-): Promise<Annotation[]> {
-    return await mixin_actions.get_annotations_for_image(context, OBJECT_DETECTION_DATASETS_URL, pk, image);
-}
-
-export async function set_annotations_for_image(
-    context: UFDLServerContext,
-    pk: number,
-    image: string,
-    annotations: Annotation[]
-): Promise<void> {
-    await mixin_actions.set_annotations_for_image(context, OBJECT_DETECTION_DATASETS_URL, pk, image, annotations);
-}
-
-export async function delete_annotations_for_image(
-    context: UFDLServerContext,
-    pk: number,
-    image: string
-): Promise<void> {
-    await mixin_actions.delete_annotations_for_image(context, OBJECT_DETECTION_DATASETS_URL, pk, image);
-}
-
 export async function get_labels(
     context: UFDLServerContext,
     pk: number
 ): Promise<string[]> {
-    return mixin_actions.get_labels(context, OBJECT_DETECTION_DATASETS_URL, pk);
+    return mixin_actions.get_labels(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk
+    )
+}
+
+export async function add_labels(
+    context: UFDLServerContext,
+    pk: number,
+    labels: string[]
+): Promise<void> {
+    return mixin_actions.add_labels(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk,
+        labels
+    )
+}
+
+export async function delete_label(
+    context: UFDLServerContext,
+    pk: number,
+    label: string
+): Promise<void> {
+    return mixin_actions.delete_label(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk,
+        label
+    )
+}
+
+export async function get_prefixes(
+    context: UFDLServerContext,
+    pk: number
+): Promise<string[]> {
+    return mixin_actions.get_prefixes(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk
+    )
+}
+
+export async function add_prefixes(
+    context: UFDLServerContext,
+    pk: number,
+    prefixes: string[]
+): Promise<void> {
+    return mixin_actions.add_prefixes(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk,
+        prefixes
+    )
+}
+
+export async function delete_prefix(
+    context: UFDLServerContext,
+    pk: number,
+    prefix: string
+): Promise<void> {
+    return mixin_actions.delete_prefix(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk,
+        prefix
+    )
+}
+
+export async function get_file_type(
+    context: UFDLServerContext,
+    pk: number,
+    filename: string
+): Promise<FileType> {
+    return mixin_actions.get_file_type(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk,
+        filename
+    )
+}
+
+export async function set_file_type(
+    context: UFDLServerContext,
+    pk: number,
+    filename: string,
+    format: string | undefined,
+    dimensions: readonly [number, number] | undefined,
+    length: number | undefined
+): Promise<void> {
+    return mixin_actions.set_file_type(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk,
+        filename,
+        format,
+        dimensions,
+        length
+    )
+}
+
+export async function get_file_types(
+    context: UFDLServerContext,
+    pk: number
+): Promise<{[filename: string]: FileType }> {
+    return mixin_actions.get_file_types(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk
+    )
+}
+
+export async function get_annotations(
+    context: UFDLServerContext,
+    pk: number
+): Promise<AnnotationsFile> {
+    return mixin_actions.get_annotations(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk
+    )
+}
+
+export async function set_annotations(
+    context: UFDLServerContext,
+    pk: number,
+    annotations: AnnotationsFile
+): Promise<void> {
+    return mixin_actions.set_annotations(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk,
+        annotations
+    )
+}
+
+export async function clear_annotations(
+    context: UFDLServerContext,
+    pk: number
+): Promise<void> {
+    return mixin_actions.clear_annotations(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk
+    )
+}
+
+export async function get_annotations_for_file(
+    context: UFDLServerContext,
+    pk: number,
+    filename: string
+): Promise<Annotation[]> {
+    return mixin_actions.get_annotations_for_file(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk,
+        filename
+    )
+}
+
+export async function set_annotations_for_file(
+    context: UFDLServerContext,
+    pk: number,
+    filename: string,
+    annotations: Annotation[]
+): Promise<void> {
+    return mixin_actions.set_annotations_for_file(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk,
+        filename,
+        annotations
+    )
+}
+
+export async function add_annotations_to_file(
+    context: UFDLServerContext,
+    pk: number,
+    filename: string,
+    annotations: Annotation[]
+): Promise<void> {
+    return mixin_actions.add_annotations_to_file(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk,
+        filename,
+        annotations
+    )
+}
+
+export async function delete_annotations_for_file(
+    context: UFDLServerContext,
+    pk: number,
+    filename: string
+): Promise<void> {
+    return mixin_actions.delete_annotations_for_file(
+        context,
+        OBJECT_DETECTION_DATASETS_URL,
+        pk,
+        filename
+    )
 }
