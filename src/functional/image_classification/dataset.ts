@@ -253,6 +253,19 @@ export async function get_categories(
     );
 }
 
+export async function get_categories_for_file(
+    context: UFDLServerContext,
+    pk: number,
+    filename: string
+): Promise<mixin_actions.CategoriesFile[string]> {
+    return mixin_actions.get_categories_for_file(
+        context,
+        IMAGE_CLASSIFICATION_DATASETS_URL,
+        pk,
+        filename
+    );
+}
+
 export async function set_categories(
     context: UFDLServerContext,
     pk: number,

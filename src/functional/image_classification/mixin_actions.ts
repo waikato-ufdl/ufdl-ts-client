@@ -15,6 +15,17 @@ export async function get_categories(
     return response.json()
 }
 
+export async function get_categories_for_file(
+    context: UFDLServerContext,
+    url: string,
+    pk: number,
+    filename: string
+): Promise<CategoriesFile[string]> {
+    const response = await context.get(`${url}/${pk}/categories/${filename}`);
+
+    return response.json()
+}
+
 export async function set_categories(
     context: UFDLServerContext,
     url: string,
