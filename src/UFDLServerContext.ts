@@ -7,6 +7,8 @@ import UFDLCrypto from "./UFDLCrypto";
 import {DataStream} from "./types/base";
 import {RawJSONElement} from "./json/types";
 import {UserInstance} from "./types/core/user";
+import Scheduler from "./schedule/Scheduler";
+import {IMMEDIATE} from "./schedule/Immediate";
 
 const EMPTY_PAYLOAD: Payload = {headers: new Headers()};
 
@@ -19,18 +21,21 @@ export default class UFDLServerContext {
     private _tokens: Promise<Tokens> | undefined;
     private _node_id?: number;
     private readonly _storage: Storage;
+    private readonly _scheduler: Scheduler;
     private _record: Promise<UserInstance> | UserInstance | undefined
 
     public static for_current_host(
         username: string,
         password: string,
-        storage: Storage = localStorage
+        storage: Storage = localStorage,
+        scheduler: Scheduler = IMMEDIATE
     ): UFDLServerContext {
         return new UFDLServerContext(
             window.location.origin,
             username,
             password,
-            storage
+            storage,
+            scheduler
         );
     }
 
@@ -38,7 +43,8 @@ export default class UFDLServerContext {
         host: string,
         username: string,
         password: string,
-        storage: Storage = localStorage
+        storage: Storage = localStorage,
+        scheduler: Scheduler = IMMEDIATE
     ) {
         this._host = host;
         this._username = username;
@@ -46,6 +52,7 @@ export default class UFDLServerContext {
         this._node_id = undefined;
         this._tokens = undefined;
         this._storage = storage;
+        this._scheduler = scheduler;
         this._record = undefined;
     }
 
@@ -496,13 +503,15 @@ export default class UFDLServerContext {
             this.node_id_header
         );
 
-        return fetch(
-            url,
-            {
-                method: Method[method],
-                body: payload.body,
-                headers: headersWithNodeHeader
-            }
+        return this._scheduler.schedule(
+            () => fetch(
+                url,
+                {
+                    method: Method[method],
+                    body: payload.body,
+                    headers: headersWithNodeHeader
+                }
+            )
         );
     }
 
