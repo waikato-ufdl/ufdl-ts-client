@@ -233,7 +233,7 @@ export function connect_to_job(
     context: UFDLServerContext,
     pk: number,
     handlers?: JobTransitionHandlers,
-    on_close?: (self: boolean) => void,
+    on_close?: (event: CloseEvent, manuallyClosed: boolean) => void,
     on_error?: (event: Event) => void
 ): void {
     context.open_websocket<JobTransitionMessage>(

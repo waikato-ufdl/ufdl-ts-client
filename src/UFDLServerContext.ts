@@ -357,7 +357,7 @@ export default class UFDLServerContext {
      *          leave it open.
      * @param on_close
      *          Action to take when the connection is closed. Takes an argument
-     *          'self' which indicates if the connection was closed by the message
+     *          'manuallyClosed' which indicates if the connection was closed by the message
      *          handler or the backend.
      * @param on_error
      *          Action to take when an error occurs in the connection.
@@ -365,7 +365,7 @@ export default class UFDLServerContext {
     public open_websocket<M extends RawJSONElement>(
         url: string,
         on_message?: (json: M) => boolean | void,
-        on_close?: (self: boolean) => void,
+        on_close?: (event: CloseEvent, manuallyClosed: boolean) => void,
         on_error?: (event: Event) => void
     ): void {
         // Change the protocol from http/https to ws
@@ -396,8 +396,8 @@ export default class UFDLServerContext {
 
         // Create a close callback which informs the handler if the web-socket closes
         // unexpectedly
-        webSocket.onclose = function() {
-            if (on_close !== undefined) on_close(manuallyClosed);
+        webSocket.onclose = function(event) {
+            if (on_close !== undefined) on_close(event, manuallyClosed);
         };
 
         // Attach the error handler directly to the socket
