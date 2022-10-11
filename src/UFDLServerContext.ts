@@ -125,61 +125,279 @@ export default class UFDLServerContext {
 
     // region STORAGE
 
+    /**
+     * Gets a unique storage key for the host/user and the given key.
+     *
+     * @param key
+     *          The base key from which to derive the storage key.
+     * @return
+     *          A promise of the storage key.
+     * @throws Error
+     *          If cryptography is not available.
+     */
     private get_storage_key(key: string): Promise<string>;
+
+    /**
+     * Gets a unique storage key for the host/user and the given key.
+     *
+     * @param key
+     *          The base key from which to derive the storage key.
+     * @param useCrypto
+     *          Instruction to hash the key (not encrypted).
+     * @return
+     *          A promise of the storage key.
+     * @throws Error
+     *          If cryptography is not available.
+     */
     private get_storage_key(key: string, useCrypto: true): Promise<string>;
+
+    /**
+     * Gets a unique storage key for the host/user and the given key.
+     *
+     * @param key
+     *          The base key from which to derive the storage key.
+     * @param useCrypto
+     *          Instruction not to hash the key.
+     * @return
+     *          The storage key.
+     */
     private get_storage_key(key: string, useCrypto: false): string;
+
+    /**
+     * Gets a unique storage key for the host/user and the given key.
+     *
+     * @param key
+     *          The base key from which to derive the storage key.
+     * @param useCrypto
+     *          Whether to hash the key (not encrypted).
+     * @return
+     *          A promise of the storage key if using crypto, or the key itself if not.
+     * @throws Error
+     *          If useCrypto is true and cryptography is not available.
+     */
     private get_storage_key(key: string, useCrypto: boolean): Promise<string> | string;
+
+    /**
+     * Gets a unique storage key for the host/user and the given key.
+     *
+     * @param key
+     *          The base key from which to derive the storage key.
+     * @param useCrypto
+     *          Whether to hash the key (not encrypted).
+     * @return
+     *          A promise of the storage key if using crypto, or the key itself if not.
+     * @throws Error
+     *          If useCrypto is true and cryptography is not available.
+     */
     private get_storage_key(key: string, useCrypto: boolean = true): Promise<string> | string {
+        // Format a key that is unique per host/user
         const storageKeyRaw = `_UFDL_${this.host}_${this.username}_${key}_`;
 
+        // Return the key unencrypted if cryptography is not requested
         if (!useCrypto) return storageKeyRaw;
 
+        // Make sure we have access to cryptography
+        if (UFDLCrypto === undefined) throw new Error("Cannot access cryptography");
+
+        // Initiate derivation of the hashed key and return its promise
         return (async () => {
-            if (UFDLCrypto === undefined) return storageKeyRaw;
+            // Encode the plain-text key as binary
             const encoded = UFDLCrypto.encodeString(storageKeyRaw);
+
+            // Hash the binary
             const digest = await UFDLCrypto.digestOf(encoded);
+
+            // Return the first 50 hex-digits of the hash
             return toHexString(digest.slice(0, 50));
         })();
     }
 
+    /**
+     * Gets an item from storage.
+     *
+     * @param key
+     *          The storage key of the item to retrieve.
+     * @return
+     *          A promise of either the plain-text value stored at the given key,
+     *          or null if there is none.
+     * @throws Error
+     *          If cryptography is not available.
+     */
     get_item(key: string): Promise<string | null>;
+
+    /**
+     * Gets an item from storage.
+     *
+     * @param key
+     *          The storage key of the item to retrieve.
+     * @param useCrypto
+     *          Instruction that the storage item is encrypted.
+     * @return
+     *          A promise of either the plain-text value stored at the given key,
+     *          or null if there is none.
+     * @throws Error
+     *          If cryptography is not available.
+     */
     get_item(key: string, useCrypto: true): Promise<string | null>;
+
+    /**
+     * Gets an item from storage.
+     *
+     * @param key
+     *          The storage key of the item to retrieve.
+     * @param useCrypto
+     *          Instruction that the storage item is not encrypted.
+     * @return
+     *          The plain-text value stored at the given key, or null if there is none.
+     */
     get_item(key: string, useCrypto: false): string | null;
+
+    /**
+     * Gets an item from storage.
+     *
+     * @param key
+     *          The storage key of the item to retrieve.
+     * @param useCrypto
+     *          Whether the storage item is encrypted.
+     * @return
+     *          The plain-text value stored at the given key, or null if there is none,
+     *          or a promise of either if using cryptography.
+     * @throws Error
+     *          If useCrypto is true and cryptography is not available.
+     */
     get_item(key: string, useCrypto: boolean): Promise<string | null> | string | null;
+
+    /**
+     * Gets an item from storage.
+     *
+     * @param key
+     *          The storage key of the item to retrieve.
+     * @param useCrypto
+     *          Whether the storage item is encrypted.
+     * @return
+     *          The plain-text value stored at the given key, or null if there is none,
+     *          or a promise of either if using cryptography.
+     * @throws Error
+     *          If useCrypto is true and cryptography is not available.
+     */
     get_item(key: string, useCrypto: boolean = true): Promise<string | null> | string | null {
+        // Get the user/host-specific storage key
         const storage_key = this.get_storage_key(key, useCrypto);
 
+        // If not using cryptography, the item should already be plain-text
         if (!useCrypto) return this._storage.getItem(storage_key as string);
 
+        // Make sure cryptography is available
+        if (UFDLCrypto === undefined) throw new Error("Cannot access cryptography");
+
+        // Initiate decryption of the stored value and return its promise
         return (async () => {
+            // Get the key to decrypt the value
             const crypto_key = await this.crypto_key;
 
+            // Get the encrypted value
             let encrypted = this._storage.getItem(await storage_key);
 
-            if (encrypted === null) return null;
-
-            return UFDLCrypto === undefined || crypto_key === undefined ?
-                encrypted :
-                await UFDLCrypto.decrypt(encrypted, crypto_key);
+            // Decrypt and return the value
+            return encrypted !== null
+                ? await UFDLCrypto.decrypt(encrypted, crypto_key!)
+                : null
         })();
     }
 
+    /**
+     * Stores an item in storage.
+     *
+     * @param key
+     *          The storage key under which to store the item.
+     * @param value
+     *          The value to store at the given key.
+     * @return
+     *          A promise of completion of storage.
+     * @throws Error
+     *          If cryptography is not available.
+     */
     store_item(key: string, value: string): Promise<void>;
+
+    /**
+     * Stores an item in storage.
+     *
+     * @param key
+     *          The storage key under which to store the item.
+     * @param value
+     *          The value to store at the given key.
+     * @param useCrypto
+     *          Instruction to encrypt the storage item.
+     * @return
+     *          A promise of completion of storage.
+     * @throws Error
+     *          If useCrypto is true and cryptography is not available.
+     */
     store_item(key: string, value: string, useCrypto: true): Promise<void>;
+
+    /**
+     * Stores an item in storage.
+     *
+     * @param key
+     *          The storage key under which to store the item.
+     * @param value
+     *          The value to store at the given key.
+     * @param useCrypto
+     *          Instruction not to encrypt the storage item.
+     */
     store_item(key: string, value: string, useCrypto: false): void;
+
+    /**
+     * Stores an item in storage.
+     *
+     * @param key
+     *          The storage key under which to store the item.
+     * @param value
+     *          The value to store at the given key.
+     * @param useCrypto
+     *          Whether to encrypt the storage item.
+     * @return
+     *          A promise of completion of storage if using cryptography, or nothing
+     *          if not.
+     * @throws Error
+     *          If useCrypto is true and cryptography is not available.
+     */
     store_item(key: string, value: string, useCrypto: boolean): Promise<void> | void;
+
+    /**
+     * Stores an item in storage.
+     *
+     * @param key
+     *          The storage key under which to store the item.
+     * @param value
+     *          The value to store at the given key.
+     * @param useCrypto
+     *          Whether to encrypt the storage item.
+     * @return
+     *          A promise of completion of storage if using cryptography, or nothing
+     *          if not.
+     * @throws Error
+     *          If useCrypto is true and cryptography is not available.
+     */
     store_item(key: string, value: string, useCrypto: boolean = true): Promise<void> | void {
+        // Get the user/host-specific storage key
         const storage_key = this.get_storage_key(key, useCrypto);
 
+        // If not using cryptography, the item should already be plain-text
         if (!useCrypto) return this._storage.setItem(storage_key as string, value);
 
+        // Make sure cryptography is available
+        if (UFDLCrypto === undefined) throw new Error("Cannot access cryptography");
+
+        // Initiate encryption of the stored value and return a promise of its completion
         return (async () => {
+            // Get the key to encrypt the value
             const crypto_key = await this.crypto_key;
 
-            const encrypted = UFDLCrypto === undefined || crypto_key === undefined
-                ? value
-                : await UFDLCrypto.encrypt(value, crypto_key);
+            // Encrypt the value
+            const encrypted = await UFDLCrypto.encrypt(value, crypto_key!);
 
+            // Store the encrypted value
             this._storage.setItem(await storage_key, encrypted);
         })();
     }
