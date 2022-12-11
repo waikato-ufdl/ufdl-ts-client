@@ -28,3 +28,5 @@ export let OBJECT_DETECTION_DATASETS_URL = "v1/objdet/datasets";
 export const SPEECH_DATASETS_URL = "v1/speech/datasets";
 
 export const IMAGE_SEGMENTATION_DATASETS_URL = "v1/segments/datasets";
+
+export const SPECTRUM_CLASSIFICATION_DATASETS_URL = "v1/spectra/datasets";
