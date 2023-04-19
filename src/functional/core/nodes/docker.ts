@@ -23,13 +23,13 @@ export async function create(
     registry_url: string,
     registry_username: string | null,
     registry_password: string | null,
-    cuda_version: number,
+    cuda_version: string,
     framework: number,
     domain: string,
     tasks: string[],
-    min_hardware_generation: number | null,
+    min_hardware_generation: string | null,
     cpu: boolean,
-    licence: number
+    licence: string
 ): Promise<DockerImageInstance> {
     return base_actions.create(
         context,
@@ -72,13 +72,13 @@ export async function update(
     registry_url: string,
     registry_username: string | null,
     registry_password: string | null,
-    cuda_version: number,
+    cuda_version: string,
     framework: number,
     domain: string,
     tasks: string[],
-    min_hardware_generation: number | null,
+    min_hardware_generation: string | null,
     cpu: boolean,
-    licence: number
+    licence: string
 ): Promise<DockerImageInstance> {
     return base_actions.update(
         context,
@@ -111,13 +111,13 @@ export async function partial_update(
     registry_url?: string,
     registry_username?: string | null,
     registry_password?: string | null,
-    cuda_version?: number,
+    cuda_version?: string,
     framework?: number,
     domain?: string,
     tasks?: string[],
-    min_hardware_generation?: number | null,
+    min_hardware_generation?: string | null,
     cpu?: boolean,
-    licence?: number
+    licence?: string
 ): Promise<DockerImageInstance> {
     return base_actions.partial_update(
         context,
