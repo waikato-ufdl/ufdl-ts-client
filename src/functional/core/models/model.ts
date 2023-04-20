@@ -21,7 +21,7 @@ export async function create(
     context: UFDLServerContext,
     framework: number,
     domain: string,
-    licence: number
+    licence: string
 ): Promise<ModelInstance> {
     return base_actions.create(
         context,
@@ -50,7 +50,7 @@ export async function update(
     pk: number,
     framework: number,
     domain: string,
-    licence: number
+    licence: string
 ): Promise<ModelInstance> {
     return base_actions.update(
         context,
@@ -69,7 +69,7 @@ export async function partial_update(
     pk: number,
     framework?: number,
     domain?: string,
-    licence?: number
+    licence?: string
 ): Promise<ModelInstance> {
     return base_actions.partial_update(
         context,
